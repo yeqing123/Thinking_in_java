@@ -2,23 +2,12 @@ package typeinfo.toys;
 
 import static net.mindview.util.Print.*;
 
-interface HasBatteries {}
-interface Waterproof {}
-interface Shoots {}
+// Incorporate a new kind of interface
+interface hasCPU {}
 
-class Toy {
-	// Comment out the following default constructor 
-	// to see NoSuchMethodError from (*1*)
-	Toy() {}
-	Toy(int i) {}
-}
+class FancierToy extends FancyToy implements hasCPU {}
 
-class FancyToy extends Toy 
-    implements HasBatteries, Waterproof, Shoots {
-	FancyToy() { super(1); }
-}
-
-public class ToyTest {
+public class Ex02_ToyTest2 {
     public static void printInfo(Class<?> c) {
     	print("Canonical name: " + c.getCanonicalName());
     	print("Simple name: " + c.getSimpleName());
@@ -28,19 +17,19 @@ public class ToyTest {
 		// TODO Auto-generated method stub
         Class<?> c = null;
 		try {
-        	c = Class.forName("typeinfo.toys.FancyToy");
+        	c = Class.forName("typeinfo.toys.FancierToy");
         } catch(ClassNotFoundException e) {
-        	print("Couldn't found \"FancyToy\"");
+        	print("Couldn't found \"FancierToy\"");
         }
 	 	printInfo(c);
     	print("Super class: " + c.getSuperclass());
     	Class<?>[] interfaces = c.getInterfaces();
     	print("Its all interfaces of implemented: ");
-    	for(Class<?> i : interfaces) {
-    		printInfo(i);
+    	for(Class<?> face : interfaces) {
+    		printInfo(face);
     	}
     	print();
-    	print("Call newInstance(): ");
+    	print(c.getSimpleName() + " superclass instantiated:");
     	Class<?> up = c.getSuperclass();
     	Object obj = null;
     	try {
