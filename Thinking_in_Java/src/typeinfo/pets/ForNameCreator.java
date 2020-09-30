@@ -22,8 +22,7 @@ public class ForNameCreator extends PetCreator {
     private static void loader() {
     	try {
     		for(String name : typeNames) {
-    			types.add(
-    					(Class<? extends Pet>)Class.forName(name));
+    			types.add((Class<? extends Pet>)Class.forName(name));
     		}
     	} catch(ClassNotFoundException e) {
     		throw new RuntimeException(e);
