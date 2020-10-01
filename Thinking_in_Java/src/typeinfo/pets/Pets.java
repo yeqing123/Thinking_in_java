@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Pets {
     public static final PetCreator creator = 
-    		new LiteralPetCreator();
+    		new RegisteredFactoriesCreator();
     public static Pet randomPet() {
     	return creator.randomPet();
     }
