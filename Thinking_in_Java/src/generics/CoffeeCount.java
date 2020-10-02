@@ -1,6 +1,5 @@
 package generics;
 import java.util.Iterator;
-
 import generics.coffee.Coffee;
 import generics.coffee.CoffeeGenerator;
 import typeinfo.pets.TypeCounter;

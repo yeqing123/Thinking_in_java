@@ -1,11 +1,12 @@
-package typeinfo.pets;
+package typeinfo.pets2;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import typeinfo.factory.*;
+import typeinfo.pets.Pet;
+import typeinfo.pets.PetCreator;
 
 public class RegisteredFactoriesCreator extends PetCreator {
 	private Random rand = new Random(47);
@@ -28,10 +29,7 @@ public class RegisteredFactoriesCreator extends PetCreator {
     	return petFactories.get(n).create();
     }
     public List<Class<? extends Pet>> types() {
-    	List<Class<? extends Pet>> types = new ArrayList<Class<? extends Pet>>();
-    	for(int i = 0; i < petFactories.size(); i++) {
-    		types.add(petFactories.get(i).create().getClass());
-    	}
-    	return types;
+    	// Not need to implement this method
+    	throw new UnsupportedOperationException();
     }
 }

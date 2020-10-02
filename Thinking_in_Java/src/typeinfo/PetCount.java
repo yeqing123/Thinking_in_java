@@ -22,27 +22,27 @@ public class PetCount {
     			counter.count("Pet");
     		if(pet instanceof Dog)
     			counter.count("Dog");
-    		if(pet instanceof Mutt)
+    		if(pet instanceof typeinfo.pets2.Mutt)
     			counter.count("Mutt");
-    		if(pet instanceof Pug)
+    		if(pet instanceof typeinfo.pets2.Pug)
     			counter.count("Pug");
     		if(pet instanceof Cat)
     			counter.count("Cat");
-    		if(pet instanceof Manx)
+    		if(pet instanceof typeinfo.pets2.EgyptianMau)
     			counter.count("EgyptianMau");
-    		if(pet instanceof Manx)
+    		if(pet instanceof typeinfo.pets2.Manx)
     			counter.count("Manx");
-    		if(pet instanceof Manx)
-    			counter.count("Cymirc");
+    		if(pet instanceof typeinfo.pets2.Cymric)
+    			counter.count("Cymric");
     		if(pet instanceof Rodent)
     			counter.count("Rodent");
-    		if(pet instanceof Rat)
+    		if(pet instanceof typeinfo.pets2.Rat)
     			counter.count("Rat");
-    		if(pet instanceof Mouse)
+    		if(pet instanceof typeinfo.pets2.Mouse)
     			counter.count("Mouse");
-    		if(pet instanceof Hamster)
+    		if(pet instanceof typeinfo.pets2.Hamster)
     			counter.count("Hamster");
-    		if(pet instanceof Gerbil)
+    		if(pet instanceof typeinfo.pets2.Gerbil)
     			counter.count("Gerbil");
     	}
     	// Show the counts:

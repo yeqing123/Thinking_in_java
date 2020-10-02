@@ -6,6 +6,7 @@ public abstract class PetCreator {
 	// The List of the different types of Pet to create:
 	public abstract List<Class<? extends Pet>> types();
 	public Pet randomPet() {  // Create one random Pet  
+		System.out.println("called PetCreator.randomPet()");
 		int n = rand.nextInt(types().size());
 		try {
 			return types().get(n).newInstance();

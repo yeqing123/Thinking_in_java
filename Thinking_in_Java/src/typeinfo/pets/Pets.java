@@ -1,6 +1,7 @@
 // Facade to produce a default PetCreator.
 package typeinfo.pets;
 import java.util.*;
+import typeinfo.pets2.RegisteredFactoriesCreator;
 
 public class Pets {
     public static final PetCreator creator = 
