@@ -34,7 +34,7 @@ class Implementation implements SomeMethods {
 	public void boring3() {
 		System.out.println("boring3");
 	}
-}
+}    
 
 public class SelectingMethods {
     public static void consumer(SomeMethods iface) {
