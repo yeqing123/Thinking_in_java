@@ -1,48 +1,32 @@
 package generics;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class RandomList<T> {
-    private class Node {
-    	T item;
-    	Node next;
-    	Node() { item = null; next = null; }
-    	Node(T item, Node next) {
-    		this.item = item;
-    		this.next = next;
-    	}
-    	public boolean isEnd() {
-    		return item == null && next == null;
-    	}
+	private static Random rand = new Random(47);
+	private List<T> storage = new ArrayList<T>();
+    public void add(T e) {
+    	storage.add(e);
     }
-    Node top = new Node();
-    private Random rand = new Random();
-    private int i = 0;
-    public void push(T item) {
-    	Node node = new Node(item, top);
-    	top = node;
-    	i++;
-    }
-    public T pop() {
-    	T result = top.item;
-    	if(!top.isEnd())
-    		top = top.next;
-    	return result;
+    public void addAll(T... digits) {
+    	for(T e : digits)
+    		storage.add(e);
     }
     public T select() {
-    	int n = rand.;
-    	T result;
-    	for(int i = 1; (result = this.pop()) != null  && i != n; i++);
-    	return result;
-    		
+    	return storage.get(rand.nextInt(storage.size()));
+    }
+    public int size() {
+    	return storage.size();
     }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		RandomList<String> list = new RandomList<String>();
-        for(int i = 0; i < 20; i++) {
-        	list.push(Integer.toString(i));
+        for(int i = 0; i < 10; i++) {
+        	list.add(Integer.toString(i));
         }
-        for(int i = 0; i < 20; i++)
+        for(int i = 0; i < 10; i++)
         	System.out.println(list.select());
 	}
 
