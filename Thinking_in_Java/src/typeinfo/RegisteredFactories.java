@@ -1,7 +1,10 @@
 // Registering Class Factories in the base class.
 package typeinfo;
-import typeinfo.factory.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import typeinfo.factory.Factory;
 
 class Part {
 	public String toString() {

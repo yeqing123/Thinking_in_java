@@ -1,5 +1,8 @@
 package typeinfo.pets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 public abstract class PetCreator {
 	private Random rand = new Random(47);

@@ -1,6 +1,6 @@
 package chapter_strings;
-import java.util.Formatter;
 import java.math.BigDecimal;
+import java.util.Formatter;
 
 public class Conversion {
 

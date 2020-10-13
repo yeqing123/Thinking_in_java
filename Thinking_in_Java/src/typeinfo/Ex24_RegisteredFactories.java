@@ -1,12 +1,14 @@
 // Registering Class Factories in the base class.
 package typeinfo;
-import typeinfo.factory.*;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 import net.mindview.util.Null;
+import typeinfo.factory.Factory;
 
 class NullPartProxyHandler implements InvocationHandler {
 	private String nullName;

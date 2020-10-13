@@ -1,5 +1,4 @@
 package chapter_strings;
-import java.util.regex.*;
 
 public class Ex_09 {
     public static String knights = 

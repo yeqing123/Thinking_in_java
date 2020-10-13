@@ -1,7 +1,10 @@
 package typeinfo;
-import typeinfo.pets.*;
 //import net.mindview.util.TypeCounter;
 import static net.mindview.util.Print.*;
+
+import typeinfo.pets.Pet;
+import typeinfo.pets.Pets;
+import typeinfo.pets.TypeCounter;
 
 public class PetCount4 {
 

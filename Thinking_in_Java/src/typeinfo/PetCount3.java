@@ -1,9 +1,14 @@
 // Using isInstance()
 package typeinfo;
-import typeinfo.pets.*;
-import java.util.*;
-import net.mindview.util.*;
 import static net.mindview.util.Print.*;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import net.mindview.util.*;
+import typeinfo.pets.LiteralPetCreator;
+import typeinfo.pets.Pet;
+import typeinfo.pets.Pets;
 
 public class PetCount3 {
     static class PetCounter extends LinkedHashMap<Class<? extends Pet>, Integer> {

@@ -1,5 +1,5 @@
 package chapter_strings;
-import java.util.*;
+import java.util.Formatter;
 
 public class Receipt {
 	public static final int itemWidth = 15;

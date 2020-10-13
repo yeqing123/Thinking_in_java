@@ -1,5 +1,6 @@
 package typeinfo;
-import java.util.*;
+import java.util.List;
+
 import net.mindview.util.*;
 
 public interface Robot {

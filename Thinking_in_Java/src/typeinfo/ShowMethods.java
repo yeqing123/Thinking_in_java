@@ -2,9 +2,11 @@
 // even if the methods are defined in the base calss.
 // {Args: ShowMethods}
 package typeinfo;
-import java.lang.reflect.*;
-import java.util.regex.*;
 import static net.mindview.util.Print.*;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.regex.Pattern;
 
 public class ShowMethods {
     private static String usage = 

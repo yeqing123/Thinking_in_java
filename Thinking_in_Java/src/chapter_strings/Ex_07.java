@@ -1,6 +1,6 @@
 package chapter_strings;
-import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Ex_07 {
 

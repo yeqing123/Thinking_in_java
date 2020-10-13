@@ -1,6 +1,8 @@
 package typeinfo;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 import typeinfo.interfaced.A;
 import typeinfo.packageaccess.HiddenT;
 

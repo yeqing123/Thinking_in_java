@@ -1,7 +1,11 @@
 // Using a dynamic proxy to create a Null Object.
 package typeinfo;
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.Collections;
+import java.util.List;
+
 import net.mindview.util.*;
 
 class NullRobotProxyHandler implements InvocationHandler {

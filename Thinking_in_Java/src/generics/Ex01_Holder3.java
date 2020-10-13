@@ -1,5 +1,9 @@
 package generics;
-import typeinfo.pets.*;
+import typeinfo.pets.Cymric;
+import typeinfo.pets.EgyptianMau;
+import typeinfo.pets.Gerbil;
+import typeinfo.pets.Mutt;
+import typeinfo.pets.Pet;
 
 public class Ex01_Holder3<T> {
     private T a;

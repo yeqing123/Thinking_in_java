@@ -1,7 +1,14 @@
 package typeinfo;
-import typeinfo.pets.*;
-import java.util.*;
 import static net.mindview.util.Print.*;
+
+import java.util.HashMap;
+
+import typeinfo.pets.Cat;
+import typeinfo.pets.Dog;
+import typeinfo.pets.ForNameCreator;
+import typeinfo.pets.Pet;
+import typeinfo.pets.PetCreator;
+import typeinfo.pets.Rodent;
 
 public class PetCount {
     static class PetCounter extends HashMap<String, Integer> {

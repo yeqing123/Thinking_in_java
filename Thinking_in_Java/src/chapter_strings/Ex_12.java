@@ -1,10 +1,9 @@
 package chapter_strings;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Ex_12 {
     public static final String POEM = 

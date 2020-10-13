@@ -1,6 +1,8 @@
 // Registering Class Factories in the base class.
 package typeinfo;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 class Part2 {
 	public String toString() {

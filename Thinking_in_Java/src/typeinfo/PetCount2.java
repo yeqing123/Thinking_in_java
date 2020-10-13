@@ -1,5 +1,5 @@
 package typeinfo;
-import typeinfo.pets.*;
+import typeinfo.pets.Pets;
 
 public class PetCount2 {
 

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import typeinfo.factory.*;
+import typeinfo.factory.Factory;
 import typeinfo.pets.Pet;
 import typeinfo.pets.PetCreator;
 

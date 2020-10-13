@@ -1,7 +1,9 @@
 package typeinfo;
-import java.lang.reflect.*;
-import java.util.*;
 import static net.mindview.util.Print.*;
+
+import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 
 interface Iface {
 	int i = 47;

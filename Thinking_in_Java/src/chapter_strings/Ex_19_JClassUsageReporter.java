@@ -1,5 +1,7 @@
 package chapter_strings;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import net.mindview.util.*;
 
 public class Ex_19_JClassUsageReporter {

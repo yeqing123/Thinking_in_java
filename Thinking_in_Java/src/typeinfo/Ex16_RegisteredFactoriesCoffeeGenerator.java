@@ -1,7 +1,16 @@
 // Generate different types of Coffee:
 package typeinfo;
-import java.util.*;
-import generics.coffee2.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
+import generics.coffee2.Americano;
+import generics.coffee2.Breve;
+import generics.coffee2.Cappuccino;
+import generics.coffee2.Coffee;
+import generics.coffee2.Latte;
+import generics.coffee2.Mocha;
 import net.mindview.util.*;
 import typeinfo.factory.Factory;
 

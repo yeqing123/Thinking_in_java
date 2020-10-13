@@ -1,5 +1,7 @@
 package typeinfo;
-import java.lang.reflect.*;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 class DynamicProxyHandler3 implements InvocationHandler {
 	private Object proxied;

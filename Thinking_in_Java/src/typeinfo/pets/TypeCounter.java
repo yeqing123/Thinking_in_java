@@ -1,6 +1,7 @@
 // Counts instances of a type family.
 package typeinfo.pets;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TypeCounter extends HashMap<Class<?>, Integer> {
     private Class<?> baseType;
