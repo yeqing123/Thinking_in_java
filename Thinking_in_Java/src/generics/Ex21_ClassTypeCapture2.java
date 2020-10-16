@@ -53,7 +53,6 @@ public class Ex21_ClassTypeCapture2 {
 		System.out.println(s.getClass());
 		System.out.println(c.getClass());
 		System.out.println(f.getClass());
-	  
 	}
 
 }
