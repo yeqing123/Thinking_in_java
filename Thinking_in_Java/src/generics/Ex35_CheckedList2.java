@@ -20,9 +20,9 @@ public class Ex35_CheckedList2 {
         } catch(Exception e) {
         	System.out.println(e);
         }
-        coffees2.add(new Latte());
-        coffees2.add(new Cappuccino());
-        coffees2.add(new Americano());
+        coffees2.add((Coffee) new Latte());
+        coffees2.add((Coffee) new Cappuccino());
+        coffees2.add((Coffee) new Americano());
 	}
 
 }
