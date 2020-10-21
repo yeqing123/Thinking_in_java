@@ -1,11 +1,11 @@
 package generics;
 
-interface Coffee {
+interface Coffee2 {
 	public double getCost();
 	public String getIngredient(); 
 }
 
-class OriginalCoffee implements Coffee {
+class OriginalCoffee implements Coffee2 {
 	public double getCost() {
 		return 10.00;
 	}
@@ -14,9 +14,9 @@ class OriginalCoffee implements Coffee {
 	}
 }
 
-abstract class CoffeeDecorator implements Coffee {
-	private final Coffee decoratedCoffee;
-	public CoffeeDecorator(Coffee decoratedCoffee) {
+abstract class CoffeeDecorator implements Coffee2 {
+	private final Coffee2 decoratedCoffee;
+	public CoffeeDecorator(Coffee2 decoratedCoffee) {
 		this.decoratedCoffee = decoratedCoffee;
 	}
 	public double getCost() {
@@ -28,7 +28,7 @@ abstract class CoffeeDecorator implements Coffee {
 }
 
 class WithMilk extends CoffeeDecorator {
-	public WithMilk(Coffee decoratedCoffee) {
+	public WithMilk(Coffee2 decoratedCoffee) {
         super(decoratedCoffee);
 	}
 	@Override
@@ -42,7 +42,7 @@ class WithMilk extends CoffeeDecorator {
 }
 
 class WithFoam extends CoffeeDecorator {
-	public WithFoam(Coffee decoratedCoffee) {
+	public WithFoam(Coffee2 decoratedCoffee) {
 		super(decoratedCoffee);
 	}
 	@Override
@@ -58,7 +58,7 @@ class WithFoam extends CoffeeDecorator {
 // 为添加巧克力再增加一个装饰器，扩展一个新的功能，区别白巧克力和黑巧克力
 abstract class ChocolateKind extends CoffeeDecorator {
 	String kind;
-	public ChocolateKind(Coffee decoratedCoffee, String kind) {
+	public ChocolateKind(Coffee2 decoratedCoffee, String kind) {
 		super(decoratedCoffee);
 		this.kind = kind;
 	}
@@ -77,7 +77,7 @@ abstract class ChocolateKind extends CoffeeDecorator {
 }
 
 class WithChocolate extends ChocolateKind {
-	public WithChocolate(Coffee decoratedCoffee, String kind) {
+	public WithChocolate(Coffee2 decoratedCoffee, String kind) {
 		super(decoratedCoffee, kind);
 	}
 	@Override
@@ -91,7 +91,7 @@ class WithChocolate extends ChocolateKind {
 }
 
 class WithCaramel extends CoffeeDecorator {
-	public WithCaramel(Coffee decoratedCoffee) {
+	public WithCaramel(Coffee2 decoratedCoffee) {
 		super(decoratedCoffee);
 	}
 	@Override
@@ -105,7 +105,7 @@ class WithCaramel extends CoffeeDecorator {
 }
 
 class WithWhippedCream extends CoffeeDecorator {
-	public WithWhippedCream(Coffee decoratedCoffee) {
+	public WithWhippedCream(Coffee2 decoratedCoffee) {
 		super(decoratedCoffee);
 	}
 	@Override
@@ -120,7 +120,7 @@ class WithWhippedCream extends CoffeeDecorator {
 
 public class Ex38_CoffeeDecorator {
 
-	public static void print(Coffee coffee, String name) {
+	public static void print(Coffee2 coffee, String name) {
 		System.out.println(name);
 		System.out.println("Ingredient: " + coffee.getIngredient() + 
 				", cost: " + coffee.getCost());
@@ -129,12 +129,12 @@ public class Ex38_CoffeeDecorator {
 		// TODO Auto-generated method stub
         OriginalCoffee originalCoffee = new OriginalCoffee();
         print(originalCoffee, "Original Coffee");
-        Coffee americano = 
+        Coffee2 americano = 
         		new WithCaramel(new WithChocolate(new WithMilk(originalCoffee), "black"));
         print(americano, "Americano");
-        Coffee breve = new WithFoam(new WithMilk(originalCoffee));
+        Coffee2 breve = new WithFoam(new WithMilk(originalCoffee));
         print(breve, "Breve");
-        Coffee latte = 
+        Coffee2 latte = 
         		new WithChocolate(new WithMilk(new WithWhippedCream(originalCoffee)), "white");
         print(latte, "Latte");
 	}

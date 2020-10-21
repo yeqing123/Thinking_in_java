@@ -29,7 +29,7 @@ class MixinProxy implements InvocationHandler {
 			interfaces[i] = (Class)pairs[i].second;
 		}
 		ClassLoader cl = 
-				pairs[0].first.getClass().getClassLoader();
+				ClassLoader.getSystemClassLoader();
 		return Proxy.newProxyInstance(cl, interfaces, new MixinProxy(pairs));
 	}
 }
