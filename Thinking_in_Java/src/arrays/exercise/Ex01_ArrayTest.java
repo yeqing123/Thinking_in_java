@@ -1,12 +1,7 @@
 package arrays.exercise;
 
 import java.util.Arrays;
-
-class BerylliumSphere {
-    private static long counter;
-    private final long id = counter++;
-    public String toString() { return "Sphere " + id; }
-}
+import arrays.BerylliumSphere;
 
 
 public class Ex01_ArrayTest {
