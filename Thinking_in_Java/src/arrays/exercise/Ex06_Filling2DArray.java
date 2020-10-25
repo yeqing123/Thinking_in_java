@@ -1,5 +1,6 @@
 package arrays.exercise;
 
+import arrays.BerylliumSphere;
 
 public class Ex06_Filling2DArray {
     public static BerylliumSphere[][] fill(int xLen, int yLen) {

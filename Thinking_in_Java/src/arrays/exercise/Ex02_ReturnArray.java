@@ -2,6 +2,8 @@ package arrays.exercise;
 
 import java.util.Arrays;
 
+import arrays.BerylliumSphere;
+
 public class Ex02_ReturnArray {
     public static BerylliumSphere[] createArray(int size) {
     	BerylliumSphere[] bs = new BerylliumSphere[size];
