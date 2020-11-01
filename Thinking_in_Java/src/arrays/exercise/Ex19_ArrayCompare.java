@@ -7,6 +7,7 @@ class HoldingNumber {
 	public HoldingNumber(int number) {
 		this.number = number;
 	}
+	public String toString() { return "" + number; } 
 }
 
 class HoldingNumberWithEquals extends HoldingNumber {
