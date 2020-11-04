@@ -3,14 +3,14 @@ package containers;
 
 import java.util.*;
 
-public class CountingMapData2 extends AbstractMap<Integer, String> {
+public class Ex05_CountingMapData2 extends AbstractMap<Integer, String> {
 	private static String[] chars = 
     		"A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(" ");
-	int size;
-	public CountingMapData2(int size) {
+	private int size;
+	public Ex05_CountingMapData2(int size) {
     	this.size = size < 0 ? 0 : size;
     }
-	private static class Entry implements Map.Entry<Integer, String> {
+	private class Entry implements Map.Entry<Integer, String> {
     	int index;
     	Entry(int index) { this.index = index; }
     	@Override
@@ -35,12 +35,8 @@ public class CountingMapData2 extends AbstractMap<Integer, String> {
     		throw new UnsupportedOperationException();
     	}
     }
-	// 创建了一个定制的Set类，完全实现了享元
-	private static class EntrySet extends AbstractSet<Map.Entry<Integer, String>> {
-		int size;
-		EntrySet(int size) {
-			this.size = size < 0 ? 0 : size;
-		}
+	// 创建了一个定制的Set类，来完全实现享元
+	class EntrySet extends AbstractSet<Map.Entry<Integer, String>> {
 		@Override
 		public int size() { return size; }
 		@Override
@@ -60,13 +56,14 @@ public class CountingMapData2 extends AbstractMap<Integer, String> {
 			}
 		}
 	}
+	private Set<Map.Entry<Integer, String>> entries = new EntrySet();
 	@Override 
     public Set<Map.Entry<Integer, String>> entrySet() {
-        return new EntrySet(size);
+        return entries;
     }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-        System.out.println(new CountingMapData2(60));
+        System.out.println(new Ex05_CountingMapData2(60));
 	}
 
 }
