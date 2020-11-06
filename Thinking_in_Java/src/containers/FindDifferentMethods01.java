@@ -3,7 +3,7 @@ package containers;
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class FindDifferentMethods {
+public class FindDifferentMethods01 {
 	// 从完整的方法名称中，提取只包含：方法名称、参数类型的简单方法名
 	public static String getSimpleName(String completeName) {
 		String[] s = completeName.split("\\.");
@@ -27,6 +27,7 @@ public class FindDifferentMethods {
     	List<String> diff = new ArrayList<String>();
         List<Method> list1 = Arrays.asList(type1.getDeclaredMethods());
         List<Method> list2 = Arrays.asList(type2.getDeclaredMethods());
+        
         boolean flag = false;
         // 找出list1中所有不在list2中的方法
         for(Method m1 : list1) {
@@ -64,8 +65,8 @@ public class FindDifferentMethods {
     }
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		List<String> diff = findDifferent(Collection.class, Object.class);
-        print(diff);
+		List<String> diff = findDifferent(Collection.class, List.class);
+    //    print(diff);
 	}
 
 }
