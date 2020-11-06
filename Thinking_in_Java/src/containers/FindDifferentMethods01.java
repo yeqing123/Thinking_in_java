@@ -23,10 +23,13 @@ public class FindDifferentMethods01 {
 	}
 	
 	// 根据两个Class类型，找出它们对应类型中方法（不包含继承自父类型的方法）的差异部分，返回含差异方法的List集合
-    public static List<String> findDifferent(Class<?> type1, Class<?> type2) {
+    public static List<String> findDiffer(String className1, String className2) 
+    		throws Exception {
+    	Method[] methods1 = Class.forName(className1).getDeclaredMethods();
+    	Method[] methods2 = Class.forName(className2).getDeclaredMethods();
     	List<String> diff = new ArrayList<String>();
-        List<Method> list1 = Arrays.asList(type1.getDeclaredMethods());
-        List<Method> list2 = Arrays.asList(type2.getDeclaredMethods());
+        List<Method> list1 = Arrays.asList(methods1);
+        List<Method> list2 = Arrays.asList(methods2);
         
         boolean flag = false;
         // 找出list1中所有不在list2中的方法
@@ -59,14 +62,20 @@ public class FindDifferentMethods01 {
         }
     	return diff;
     }
-    public static void print(List<String> diff) {
-    	for(int i = 0; i < diff.size(); i++)
-    		System.out.println(i + ": " + diff.get(i));
+    public static void print(String className1, String className2, List<String> diff) {
+    	System.out.println("\n========== \"" + 
+                className1 + "\" VS \"" + className2 + 
+                "\" ==========\n");
+    	for(int i = 0; i < diff.size(); i++) {
+    		System.out.println("Line-" + i + ": " + diff.get(i));
+    	}
     }
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		List<String> diff = findDifferent(Collection.class, List.class);
-    //    print(diff);
+		String className1 = "java.util.Collection";
+		String className2 = "java.util.List";
+        List<String> diff = findDiffer(className1, className2);
+        print(className1, className2, diff);
 	}
 
 }
