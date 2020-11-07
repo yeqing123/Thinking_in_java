@@ -3,25 +3,21 @@ package containers;
 import java.lang.reflect.Method;
 import java.util.*;
 
-// 定义一个方法分析器，从方法名、参数类型、返回值，三方面进行分析
+// 定义一个方法分析器，传入的Method对象，生成包含：方法名、参数类型、返回值的Info对象
 class MethodAnalyzer {
-	private static class Info {
-		Method m;
-		String name;
-		Class<?> returnType;
-		Class<?>[] parametersType;
-		Info(Method m) {
-			this.m = m;
+	// 包含一个内部类，它保存了一个Method对象的方法名、参数类型、返回值
+	static class Info {
+		private String completeName;
+		private String name;
+		private Class<?> returnType;
+		private Class<?>[] parametersType;
+		private Info(Method m) {
+			this.completeName = m.toString();
 			this.name = m.getName();
 			this.returnType = m.getReturnType();
 			this.parametersType = m.getParameterTypes();
 		}
-		String getName() { return name; }
-		Class<?> getReturnType() { return returnType; }
-		Class<?>[] getParametersType() { return parametersType; }
-		void setName(String name) { this.name = name; }
-		void setReturnType() { this.returnType = returnType; }
-		void setParametersType() { this.parametersType = parametersType; }
+		public String getCompleteName() { return completeName; }
 		@Override
 		public boolean equals(Object o) {
 			if(!(o instanceof Info))
@@ -34,11 +30,13 @@ class MethodAnalyzer {
 	        return false;			
 		}
 	}
-	private static List<Info> infoList = new ArrayList<Info>();
-	public static void analyse(List<Method> mlist) {
-		for(Method m : mlist) {
+	// 一个静态方法，可以分析参数集合中包含的每个Method对象，并生成一个Info对象集合
+	public static List<Info> analyse(Collection<Method> methods) {
+		List<Info> infoList = new ArrayList<Info>();
+		for(Method m : methods) {
 			infoList.add(new Info(m));
 		}
+		return infoList;
 	}
 }
 
@@ -47,38 +45,39 @@ public class FindDifferentMethods02 {
     public static List<String> findDiffer(String className1, String className2) 
     		throws Exception {
     	// 如果使用了不同的加载器，即便是同一个类型生成的Class对象也会视为不相等，
-    	// 因此为了避免该情况，我们统一使用forName()方法生成Class对象
+    	// 因此为了避免该情况，我们统一使用forName()方法生成Class对象。
     	Method[] methods1 = Class.forName(className1).getDeclaredMethods();
     	Method[] methods2 = Class.forName(className2).getDeclaredMethods();
-    	Set<MethodAnalyzer> maSet1 = new HashSet<MethodAnalyzer>();
-    	Set<MethodAnalyzer> maSet2 = new HashSet<MethodAnalyzer>();
-    	// 将每个方法放入分析器，并放入Set集合
-    	for(Method m : methods1)
-    		maSet1.add(new MethodAnalyzer(m));
-    	for(Method m : methods2)
-    		maSet2.add(new MethodAnalyzer(m));
-    	// 存放找到的结果
+    	// 利用方法分析器，解析出包含每个方法信息的Info对象
+    	List<MethodAnalyzer.Info> infoList1 = 
+    			MethodAnalyzer.analyse(Arrays.asList(methods1));
+    	List<MethodAnalyzer.Info> infoList2 = 
+    			MethodAnalyzer.analyse(Arrays.asList(methods2));
+    	// 我们将内部类Info的构造器访问权限设置为私有，目的就是不允许其他类从外部自行创建Info实例，
+    	// 而只允许通过调用方法分析器（MethodAnalyzer）的analyse()静态方法来生成。
+    	// MethodAnalyzer.Info info3 = new MethodAnalyzer.Info(methods1[0]);
+    	// 定义List集合，用于存放结果
     	List<String> differ = new ArrayList<String>();
     	// 方法一：分别遍历两个Set集合，逐个查询，并将符合条件的放入List集合中
-        for(MethodAnalyzer ma : maSet1) 
-        	if(!maSet2.contains(ma))
-        		differ.add(ma.getMethod().toString());
-        for(MethodAnalyzer ma : maSet2) 
-        	if(!maSet1.contains(ma)) 
-        		differ.add(ma.getMethod().toString());
+        for(MethodAnalyzer.Info info : infoList1) 
+        	if(!infoList2.contains(info))
+        		differ.add(info.getCompleteName());
+        for(MethodAnalyzer.Info info : infoList2) 
+        	if(!infoList1.contains(info)) 
+        		differ.add(info.getCompleteName());
 
         // 方法二：
-//    	Set<MethodAnalyzer> intersection = new HashSet<MethodAnalyzer>();
-//    	intersection.addAll(maSet1);    
-//    	intersection.retainAll(maSet2);  // 获得两个Set集合的交集
+//    	List<MethodAnalyzer.Info> intersection = new ArrayList<MethodAnalyzer.Info>();
+//    	intersection.addAll(infoList1);    
+//    	intersection.retainAll(infoList2);  // 获得两个List集合的交集
 //    	// 将交集中所有元素删除，剩下的就是各自的特有元素
-//    	maSet1.removeAll(intersection);  
-//    	maSet2.removeAll(intersection);
-//    	// 保存结果到List集合中
-//    	for(MethodAnalyzer ma : maSet1)
-//    		diff.add(ma.getMethod().toString());
-//    	for(MethodAnalyzer ma : maSet2)
-//    		diff.add(ma.getMethod().toString());
+//    	infoList1.removeAll(intersection);  
+//    	infoList2.removeAll(intersection);
+//    	// 保存结果到differ集合中
+//    	for(MethodAnalyzer.Info info : infoList1)
+//    		differ.add(info.getCompleteName());
+//    	for(MethodAnalyzer.Info info : infoList2)
+//    		differ.add(info.getCompleteName());
         
         return differ;
     }
