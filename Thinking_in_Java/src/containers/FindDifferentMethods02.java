@@ -1,6 +1,5 @@
 // 很显然，FindDifferentMethods02.java的解决方案较前一个，更符合面向对象编程思想，程序结构也更合理。
 package containers;
-
 import java.lang.reflect.Method;
 import java.util.*;
 
