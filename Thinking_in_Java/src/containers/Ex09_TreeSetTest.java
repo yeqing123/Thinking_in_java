@@ -7,10 +7,9 @@ public class Ex09_TreeSetTest {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-        Set<String> treeSet = new TreeSet<String>();
+        Set<String> treeSet = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
 		RandomGenerator.String gen = new RandomGenerator.String();
-        for(int i = 0; i < 20; i++)
-        	treeSet.add(gen.next());
+        treeSet.addAll(CollectionData.list(gen, 10));
 		System.out.println(treeSet);
 	}
 
