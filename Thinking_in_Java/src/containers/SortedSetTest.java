@@ -2,6 +2,7 @@ package containers;
 import java.lang.reflect.Constructor;
 import java.util.*;
 
+import net.mindview.util.Generator;
 import net.mindview.util.RandomGenerator;
 
 // 让元素自身具有比较性，对这种元素集合进行的排序，叫做“自然排序”
@@ -45,7 +46,7 @@ class CustomComparator implements Comparator<Unordered> {
 }
 
 public class SortedSetTest {
-	static RandomGenerator.Integer gen = new RandomGenerator.Integer(100);
+	private static Generator<Integer> gen = new RandomGenerator.Integer(100);
     public static <T> void fill(Collection<T> c, Class<T> type, int quantity) throws Exception {
     	Constructor<T> con = type.getDeclaredConstructor(Integer.class);
     	for(int i = 0; i < quantity; i++)
