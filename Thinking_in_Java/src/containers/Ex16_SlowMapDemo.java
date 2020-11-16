@@ -40,34 +40,43 @@ class SlowMap2<K, V> extends AbstractMap<K, V> {
     	keys.clear();
     	values.clear();
     }
+    // 一个SlowMap对象只产生一个EntrySet实例
+    private Set<Map.Entry<K, V>> entrySet = new EntrySet();
     @Override
     public Set<Map.Entry<K, V>> entrySet() {
-        return new EntrySet();
+        return entrySet;
     }
-	class EntrySet extends AbstractSet<Map.Entry<K, V>> {
+    // 使用“享元（Flyweight）”设计模式，使得EntrySet能共享Map集合元素，而不是重新拷贝新的键-值对副本
+	private class EntrySet extends AbstractSet<Map.Entry<K, V>> {
 		@Override
 		public Iterator<Map.Entry<K, V>> iterator() {
 			return new Iterator<Map.Entry<K, V>>() {
-				Iterator<K> ki = keys.iterator();
-				Iterator<V> vi = values.iterator();
-				private MapEntry<K, V> entry = new MapEntry<K, V>(null, null);
+				int index = -1;  // 注意，index的初始值不可为0，否则在调用removeAll()方法时Map中的第一个元素将无法删除
+				boolean canRemove;
+				// 每个迭代器只包含一个MapEntry实例，它被用作数据的视窗
+				MapEntry<K, V> entry = new MapEntry<K, V>(null, null);
 				@Override
 				public boolean hasNext() {
-					// TODO Auto-generated method stub
-					return ki.hasNext() && vi.hasNext();
+					return index < keys.size() - 1;
 				}
-
+                // 每次调用next()方法是，它都会返回单一的MapEntry实例，该实例会包含index索引对应的键-值对
 				@Override
 				public Entry<K, V> next() {
-					// TODO Auto-generated method stub
-					entry.setKey(ki.next());
-					entry.setValue(vi.next());
+					canRemove = true;
+					++index;
+					entry.key = keys.get(index);
+					entry.value = values.get(index);
+
 					return entry;
 				}
 				@Override
 				public void remove() {
-					ki.remove();
-					vi.remove();
+					if(canRemove) {   // canRemove保证了一次只能删除一个，而不可重复调用remove()方法
+					    keys.remove(index);
+					    values.remove(index--);
+					    canRemove = false;
+					} else
+						throw new IllegalStateException();
 				}
 			};
 		}
@@ -113,11 +122,6 @@ class SlowMap2<K, V> extends AbstractMap<K, V> {
 		public V setValue(V v) {
 			V result = value;
 			value = v;
-			return result;
-		}
-		public K setKey(K k) {
-			K result = key;
-			key = k;
 			return result;
 		}
 		public int hashCode() {
@@ -166,7 +170,7 @@ public class Ex16_SlowMapDemo {
     	map.putAll(new CountingMapData(25));
     	// Operations on the Collection change the Map:
     	System.out.println(map.entrySet());
-        map.entrySet().removeAll(map.entrySet());   
+    	map.entrySet().removeAll(map.entrySet());  
         System.out.println("map.isEmpty():" + map.isEmpty());
         map.putAll(new CountingMapData(25));
     	map.keySet().removeAll(map.keySet());
@@ -174,10 +178,12 @@ public class Ex16_SlowMapDemo {
     	map.putAll(new CountingMapData(25));  
     	map.values().removeAll(map.values());
     	System.out.println("map.isEmpty():" + map.isEmpty());
-    	map.entrySet().add(new SlowMap2.MapEntry("YQ", "yeqing"));
+    	map.entrySet().add(new SlowMap2.MapEntry(1, "yeqing"));
     	System.out.println(map);
     }
 	public static void main(String[] args) {
+		test(new SlowMap<Integer, String>());
+		System.out.println("========================");
         test(new SlowMap2<Integer, String>());
 	}
 
