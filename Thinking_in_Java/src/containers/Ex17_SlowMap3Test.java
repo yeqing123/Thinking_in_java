@@ -86,7 +86,8 @@ class SlowMap3<K, V> implements Map<K, V> {
 						canRemove = false;
 						keys.remove(index);
 						values.remove(index--);
-					}
+					} else
+						throw new IllegalStateException();
 				}
 			};
 		}
@@ -124,7 +125,8 @@ class SlowMap3<K, V> implements Map<K, V> {
 						canRemove = false;
 						keys.remove(index);
 						values.remove(index--);
-					}
+					} else
+						throw new IllegalStateException();
 				}
 			};
 		}
@@ -169,7 +171,8 @@ class SlowMap3<K, V> implements Map<K, V> {
 						canRemove = false;
 						keys.remove(index);
 						values.remove(index--);
-					}
+					} else 
+						throw new IllegalStateException();
 				}
 			};
 		}
