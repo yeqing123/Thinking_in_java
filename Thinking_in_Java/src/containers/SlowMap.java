@@ -67,7 +67,7 @@ public class SlowMap<K, V> extends AbstractMap<K, V> {
 					me.getValue() == null : value.equals(me.getValue()));
 		}
 		public String toString() { 
-			return String.valueOf(key); 
+			return String.valueOf(key) + "=" + String.valueOf(value); 
 		}
     }
     

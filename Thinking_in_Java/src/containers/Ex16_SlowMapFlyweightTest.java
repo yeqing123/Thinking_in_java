@@ -143,7 +143,7 @@ class SlowMap2<K, V> extends AbstractMap<K, V> {
     }
 }
 
-public class Ex16_SlowMapDemo {
+public class Ex16_SlowMapFlyweightTest {
     public static void printKeys(Map<Integer, String> map) {
     	System.out.print("Size = " + map.size() + ", ");
     	System.out.print("Keys: ");

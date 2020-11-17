@@ -209,14 +209,16 @@ class SlowMap3<K, V> implements Map<K, V> {
     	@SuppressWarnings("unchecked")
 		@Override
     	public boolean equals(Object o) {
-    		return (o instanceof Map.Entry) &&
-    				((Map.Entry<K, V>)o).getKey().equals(key) &&
-    				((Map.Entry<K, V>)o).getValue().equals(value);
+    		if(!(o instanceof MapEntry)) return false;
+    		MapEntry<K, V> me = ((MapEntry<K, V>)o);
+    	    return (key == null ? me.getKey() == null : me.getKey().equals(key)) &&
+    			   (value == null ?	me.getValue() == null : me.getValue().equals(value));
     			
     	}
     	@Override
     	public int hashCode() {
-    		return key.hashCode() ^ value.hashCode();
+    		return (key == null ? 0 : key.hashCode()) ^ 
+    			   (value == null ? 0 : value.hashCode());
     	}
     	public String toString() {
     		return String.valueOf(key) + "=" + String.valueOf(value);
@@ -235,7 +237,7 @@ class SlowMap3<K, V> implements Map<K, V> {
 	}
 }
 
-public class Ex17_SlowMap3Test {
+public class Ex17_SlowMapCompleteMap {
 	
     public static void test(Map<Integer, String> map) {
     	map.putAll(new CountingMapData(25));
