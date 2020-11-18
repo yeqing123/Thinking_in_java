@@ -247,10 +247,10 @@ public class Ex17_SlowMapCompleteMap {
     	System.out.println("First key: " + map.keySet().iterator().next());
     	System.out.println("map.get(11): " + map.get(11));
     	System.out.println("map.containsKey(11): " + map.containsKey(11));
-    	Map.Entry<Integer, String> en = map.entrySet().iterator().next();
+    	Map.Entry<Integer, String> first = map.entrySet().iterator().next();
     	// Producing a Collection of the values:
-    	map.keySet().remove(en.getKey());
-    	System.out.println("Remove first element of map: " + en);
+    	map.keySet().remove(first.getKey());
+    	System.out.println("Remove first element of map: " + first);
     	System.out.println("Size: " + map.size());
     	System.out.println(map);
     	map.entrySet().removeAll(map.entrySet());

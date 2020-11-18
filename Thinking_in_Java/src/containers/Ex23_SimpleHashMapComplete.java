@@ -14,30 +14,40 @@ class SimpleHashMap5<K, V> extends SimpleHashMap<K, V> {
 		public Iterator<Entry<K, V>> iterator() {
 			return new Iterator<Entry<K, V>>() {
 				Iterator<MapEntry<K, V>> it = null;
+				MapEntry<K, V> pair;
                 int num = 0;
                 int index = 0;
                 boolean canRemove;
                 boolean flag = false;
 				@Override
 				public boolean hasNext() {
-					return num < size();
+					System.out.println("=====");
+					return num < size() && index < SIZE - 2;
 				}
 
 				@Override
 				public Entry<K, V> next() {
-                	for(int i = index; i < SIZE; i++) {
-                	    if(buckets[i] != null && !flag) {
-                		    flag = true;
-                	    	it = buckets[i].iterator();
-                	    }
-	                	while(it.hasNext()) {
+					for(; index < SIZE; index++) {
+	            		while(buckets[index] == null) {
+	            			index++;
+	            			flag = true;
+	            		}
+	            		if(flag) {
+	            	        it = buckets[index].iterator();
+	            	        flag = false;
+	            		}
+				        if(it.hasNext()) {
+				        	flag = true;
+				            index++;
+				        	continue;
+				        }
+			        	while(it.hasNext()) {
 	                	    num++;
 	                	    canRemove = true;
-	                	    index = i;
-	                		return it.next();
+	                	    pair = it.next();
+	                		return pair;
 	                	}
-	                	flag = false;
-                	}
+					}
 					return null;
 				}
 			    @Override
@@ -45,6 +55,7 @@ class SimpleHashMap5<K, V> extends SimpleHashMap<K, V> {
 			    	if(!canRemove) 
 			    		throw new IllegalStateException();
 			    	if(it != null) {
+			    		System.out.println(pair + "\nindex=" + index + ", num=" + num);
 			    	    it.remove();
 			    	    canRemove = false;
 			    	}
