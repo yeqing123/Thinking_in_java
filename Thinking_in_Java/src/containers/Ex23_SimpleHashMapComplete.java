@@ -1,6 +1,7 @@
 package containers;
 import containers.SlowMap.MapEntry;
 import java.util.*;
+import java.util.Map.Entry;
 
 class SimpleHashMap5<K, V> extends SimpleHashMap<K, V> {
 	@Override
@@ -13,64 +14,55 @@ class SimpleHashMap5<K, V> extends SimpleHashMap<K, V> {
 		@Override
 		public Iterator<Entry<K, V>> iterator() {
 			return new Iterator<Entry<K, V>>() {
-				Iterator<MapEntry<K, V>> it = null;
-				MapEntry<K, V> pair;
-                int num = 0;
+				ListIterator<MapEntry<K, V>> bit = null;
                 int index = 0;
+                int num = 0;
                 boolean canRemove;
-                boolean flag = false;
 				@Override
 				public boolean hasNext() {
-					System.out.println("=====");
-					return num < size() && index < SIZE - 2;
+					return num < size();
 				}
 
 				@Override
 				public Entry<K, V> next() {
-					for(; index < SIZE; index++) {
-	            		while(buckets[index] == null) {
+					while(this.hasNext()) {
+	            		while(buckets[index] == null) 
 	            			index++;
-	            			flag = true;
+	            		if(bit == null)
+	            	        bit = buckets[index].listIterator();
+			        	while(bit.hasNext()) {
+			        		num++;
+			        		canRemove = true;
+	                		return bit.next();
 	            		}
-	            		if(flag) {
-	            	        it = buckets[index].iterator();
-	            	        flag = false;
-	            		}
-				        if(it.hasNext()) {
-				        	flag = true;
-				            index++;
-				        	continue;
-				        }
-			        	while(it.hasNext()) {
-	                	    num++;
-	                	    canRemove = true;
-	                	    pair = it.next();
-	                		return pair;
-	                	}
+			        	index++;
+			        	bit = null;
 					}
 					return null;
 				}
 			    @Override
 			    public void remove() {
+			    	System.out.println("remove");
 			    	if(!canRemove) 
 			    		throw new IllegalStateException();
-			    	if(it != null) {
-			    		System.out.println(pair + "\nindex=" + index + ", num=" + num);
-			    	    it.remove();
-			    	    canRemove = false;
-			    	}
+			    	bit.remove();
+			    	canRemove = false;
 			    }
+			    
 			};
 		}
         @Override
         public boolean removeAll(Collection<?> c) {
-        	Iterator<Entry<K, V>> it = this.iterator();
+        	Iterator<Entry<K, V>> it = iterator();
         	boolean flag = false;
         	while(it.hasNext()) {
-        		if(c.contains(it.next())) {
-        			it.remove();
-        			flag = true;
-        		}
+        		MapEntry<K, V> me = (MapEntry<K, V>)it.next();
+        		System.out.println("Before compare:" + me);
+                if(c.contains(me)) {
+                	System.out.println("After compare:" +me);
+                	it.remove();
+                	flag = true;
+                }
         	}
         	return flag;
         }
@@ -92,11 +84,39 @@ class SimpleHashMap5<K, V> extends SimpleHashMap<K, V> {
 }
 
 public class Ex23_SimpleHashMapComplete {
-	
+	 public static void test(Map<Integer, String> map) {
+	    	map.putAll(new CountingMapData(25));
+	    	System.out.println(map.getClass().getSimpleName() + ":");
+	    	System.out.println(map);
+	    	System.out.println("Size: " + map.size() + ", Keys: " + map.keySet());
+	    	System.out.println("First key: " + map.keySet().iterator().next());
+	    	System.out.println("map.get(11): " + map.get(11));
+	    	System.out.println("map.containsKey(11): " + map.containsKey(11));
+	    	Map.Entry<Integer, String> first = map.entrySet().iterator().next();
+	    	// Producing a Collection of the values:
+	    	map.keySet().remove(first.getKey());
+	    	System.out.println("Remove first element of map: " + first);
+	    	System.out.println("Size: " + map.size());
+	    	System.out.println(map);
+	//    	map.entrySet().removeAll(map.entrySet());
+	    	System.out.println("****");
+	    	for(Entry<Integer, String> entry : map.entrySet())
+	    		map.remove((Object)entry);
+	    	System.out.println("map.isEmpty(): " + map.isEmpty());
+	    	System.out.println(map);
+	    	map.putAll(new CountingMapData(25));
+	    	map.keySet().removeAll(map.keySet());
+	    	System.out.println("map.isEmpty(): " + map.isEmpty());
+	    	System.out.println(map);
+	    	map.putAll(new CountingMapData(25));
+	    	map.values().removeAll(map.values());
+	    	System.out.println("map.isEmpty(): " + map.isEmpty());
+	    	System.out.println(map);
+	    }
 	public static void main(String[] args) {
-		Ex17_SlowMapCompleteMap.test(new SimpleHashMap<Integer, String>());
+		test(new SimpleHashMap<Integer, String>());
 		System.out.println("========================");
-		Ex17_SlowMapCompleteMap.test(new SimpleHashMap5<Integer, String>());
+		test(new SimpleHashMap5<Integer, String>());
 //		Map<Integer, String> map = new SimpleHashMap5<Integer, String>();
 //		map.putAll(new CountingMapData(25));
 //		System.out.println("map.entrySet(): " + map.entrySet());

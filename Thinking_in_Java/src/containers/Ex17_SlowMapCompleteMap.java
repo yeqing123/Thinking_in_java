@@ -255,12 +255,15 @@ public class Ex17_SlowMapCompleteMap {
     	System.out.println(map);
     	map.entrySet().removeAll(map.entrySet());
     	System.out.println("map.isEmpty(): " + map.isEmpty());
+    	System.out.println(map);
     	map.putAll(new CountingMapData(25));
     	map.keySet().removeAll(map.keySet());
     	System.out.println("map.isEmpty(): " + map.isEmpty());
+    	System.out.println(map);
     	map.putAll(new CountingMapData(25));
     	map.values().removeAll(map.values());
     	System.out.println("map.isEmpty(): " + map.isEmpty());
+    	System.out.println(map);
     }
 	public static void main(String[] args) {
         test(new SlowMap3<Integer, String>());
