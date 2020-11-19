@@ -14,17 +14,26 @@ class SimpleHashMap5<K, V> extends SimpleHashMap<K, V> {
 		@Override
 		public Iterator<Entry<K, V>> iterator() {
 			return new Iterator<Entry<K, V>>() {
+<<<<<<< HEAD
 				ListIterator<MapEntry<K, V>> bit = null;
+=======
+				Iterator<MapEntry<K, V>> bit = null;
+>>>>>>> 7f28a97... modify(containers/):modified Ex23
                 int index = 0;
                 int num = 0;
                 boolean canRemove;
 				@Override
 				public boolean hasNext() {
+<<<<<<< HEAD
 					return num < size();
+=======
+					return num < size() && index < SIZE - 2;
+>>>>>>> 7f28a97... modify(containers/):modified Ex23
 				}
 
 				@Override
 				public Entry<K, V> next() {
+<<<<<<< HEAD
 					while(this.hasNext()) {
 	            		while(buckets[index] == null) 
 	            			index++;
@@ -37,8 +46,23 @@ class SimpleHashMap5<K, V> extends SimpleHashMap<K, V> {
 	            		}
 			        	index++;
 			        	bit = null;
+=======
+					while(hasNext()) {
+	            		while(buckets[index] == null) 
+	            			index++;
+	            		if(bit == null)
+	            	        bit = buckets[index].iterator();
+			        	if(bit.hasNext()) {
+			        		num++;
+			        		canRemove = true;
+	                		return bit.next();
+	            		}else {
+			        	    index++;
+	            		    bit = null;
+	            		}
+>>>>>>> 7f28a97... modify(containers/):modified Ex23
 					}
-					return null;
+					throw new NoSuchElementException();
 				}
 			    @Override
 			    public void remove() {
@@ -85,6 +109,7 @@ class SimpleHashMap5<K, V> extends SimpleHashMap<K, V> {
 
 public class Ex23_SimpleHashMapComplete {
 	 public static void test(Map<Integer, String> map) {
+<<<<<<< HEAD
 	    	map.putAll(new CountingMapData(25));
 	    	System.out.println(map.getClass().getSimpleName() + ":");
 	    	System.out.println(map);
@@ -118,10 +143,45 @@ public class Ex23_SimpleHashMapComplete {
 		System.out.println("========================");
 		test(new SimpleHashMap5<Integer, String>());
 //		Map<Integer, String> map = new SimpleHashMap5<Integer, String>();
+=======
+		map.putAll(new CountingMapData(25));
+		System.out.println(map.getClass().getSimpleName() + ":");
+		System.out.println(map);
+		System.out.println("Size: " + map.size() + ", Keys: " + map.keySet());
+		System.out.println("First key: " + map.keySet().iterator().next());
+		System.out.println("map.get(11): " + map.get(11));
+		System.out.println("map.containsKey(11): " + map.containsKey(11));
+		Map.Entry<Integer, String> first = map.entrySet().iterator().next();
+		// Producing a Collection of the values:
+		map.keySet().remove(first.getKey());
+		System.out.println("Remove first element of map: " + first);
+		System.out.println("Size: " + map.size());
+		System.out.println(map);
+		//    	map.entrySet().removeAll(map.entrySet());
+		System.out.println("****");
+//		for(Entry<Integer, String> entry : map.entrySet())
+//			map.entrySet().remove((Object)entry);
+		Iterator<Entry<Integer, String>> it = map.entrySet().iterator();
+		while(it.hasNext()) {
+			System.out.println(it.next());
+			it.remove();
+		}
+		System.out.println("map.isEmpty(): " + map.isEmpty());
+		System.out.println(map);
+>>>>>>> 7f28a97... modify(containers/):modified Ex23
 //		map.putAll(new CountingMapData(25));
-//		System.out.println("map.entrySet(): " + map.entrySet());
-//		System.out.println("map.keySet(): " + map.keySet());
+//		map.keySet().removeAll(map.keySet());
+//		System.out.println("map.isEmpty(): " + map.isEmpty());
 //		System.out.println(map);
+//		map.putAll(new CountingMapData(25));
+//		map.values().removeAll(map.values());
+//		System.out.println("map.isEmpty(): " + map.isEmpty());
+//    	System.out.println(map);
+    }    
+	public static void main(String[] args) {
+		test(new SimpleHashMap<Integer, String>());
+		System.out.println("========================");
+		test(new SimpleHashMap5<Integer, String>());
 	}
 
 }
