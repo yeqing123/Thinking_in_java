@@ -9,7 +9,7 @@ class SimpleHashMap2<K, V> extends SimpleHashMap<K, V> {
 		int index = Math.abs(key.hashCode()) % SIZE;
 		if(buckets[index] == null)
 			buckets[index] = new LinkedList<MapEntry<K, V>>();
-		else {
+		else {      // 区别在这里，每当buckets[index]不等于null，就说明发生了冲突
 			System.out.println("Collision while adding\n" + pair +
 					"\nBucket already contains:");
 			for(Iterator<MapEntry<K, V>> it = buckets[index].iterator(); it.hasNext();)
@@ -38,7 +38,7 @@ public class Ex20_SimpleHashMapCollision {
 	public static void main(String[] args) {
 		Map<String, String> map = new SimpleHashMap2<String, String>();
         map.putAll(Countries.capitals(10));
-        map.putAll(Countries.capitals(10));
+        map.putAll(Countries.capitals(10));  // 用相同的数据来做测试
         System.out.println(map);
 	}
 

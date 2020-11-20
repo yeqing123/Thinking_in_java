@@ -20,8 +20,8 @@ public class Ex19_WordsCounter3_SimpleHashMap {
         SlowMap<String, Integer> slowCounter = new SlowMap<String, Integer>();
         countingWords(fastCounter, words);
         countingWords(slowCounter, words);
-        System.out.println("fastCounter: " + fastCounter);
-        System.out.println("slowCounter: " + slowCounter);
+        System.out.println("fastCounter:\n" + fastCounter);
+        System.out.println("slowCounter:\n" + slowCounter);
 	}
 
 }

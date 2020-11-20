@@ -3,11 +3,12 @@ import java.util.*;
 import containers.SlowMap.MapEntry;
 
 class SimpleHashMap4<K, V> extends SimpleHashMap<K, V> {
+	@SuppressWarnings("unchecked")
 	@Override
 	public void clear() {
-		for(int i = 0; i < buckets.length; i++) {
-			buckets[i] = null;
-		}
+		// Effectively erase everything by allocating 
+		// a new empty array of buckets:
+		buckets = new LinkedList[SIZE];
 	}
 	@Override
 	public V remove(Object k) {

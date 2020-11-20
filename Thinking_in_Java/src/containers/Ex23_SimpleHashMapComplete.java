@@ -15,30 +15,35 @@ class SimpleHashMap5<K, V> extends SimpleHashMap<K, V> {
 		@Override
 		public Iterator<Entry<K, V>> iterator() {
 			return new Iterator<Entry<K, V>>() {
-				Iterator<MapEntry<K, V>> bit = null;  // 表示“桶位”上链表的迭代器
-                int index = 0;
-                int count = size();  // 获取map集合中键-值对的个数
+                int index1, index2;
+                // 首先获取元素总数，然后逐个递减。
+                // 比起从零开始递增可以省去每次在hasNext()中重复调用size()方法.
+                int count = size(); 
                 boolean canRemove;
 				@Override
 				public boolean hasNext() {
-					return count > 0;  // 如果count等于0，表示所有元素已经遍历，即便数组还没有被全部访问
+					return count > 0;  
 				}
 
 				@Override
 				public Entry<K, V> next() {
-					while(hasNext()) {
-	            		while(buckets[index] == null) 
-	            			index++;
-	            		if(bit == null)
-	            	        bit = buckets[index].iterator();
-			        	if(bit.hasNext()) {
-			        		count--;      // 每返回一个元素，就减少一个
-			        		canRemove = true;
-	                		return bit.next();
-	            		}else {
-			        	    index++;
-	            		    bit = null;
-	            		}
+					// 再次进行判断
+					if(hasNext()) {
+						count--;
+						canRemove = true;
+						while(true) {
+							// 跳过空桶位
+		            		while(buckets[index1] == null) 
+		            			index1++;
+		            		try {
+		            			// 实践证明，此处使用下标比起迭代器访问链表，要聪明很多！
+		                		return buckets[index1].get(index2++);
+		                		// 利用抛出的异常，可以省去额外的if判断
+		            		} catch(IndexOutOfBoundsException e) {  
+				        	    index1++;
+		            		    index2 = 0;
+		            		}
+						}
 					}
 					throw new NoSuchElementException();
 				}
@@ -47,8 +52,10 @@ class SimpleHashMap5<K, V> extends SimpleHashMap<K, V> {
 			    public void remove() {
 			    	if(!canRemove) 
 			    		throw new IllegalStateException();
-			    	bit.remove();
 			    	canRemove = false;
+			    	buckets[index1].remove(--index2);
+			    	if(buckets[index1].isEmpty())   // 彻底清空桶位
+			    		buckets[index1++] = null;
 			    }
 			};
 		}
@@ -83,7 +90,7 @@ class SimpleHashMap5<K, V> extends SimpleHashMap<K, V> {
 
 public class Ex23_SimpleHashMapComplete {
 
-	public static void test(Map<Integer, String> map) {
+	public static void test(SimpleHashMap<Integer, String> map) {
     	map.putAll(new CountingMapData(25));
     	System.out.println(map.getClass().getSimpleName() + ":");
     	System.out.println(map);

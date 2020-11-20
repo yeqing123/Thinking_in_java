@@ -15,7 +15,7 @@ class SimpleHashMap3<K, V> extends SimpleHashMap<K, V> {
         int counter = 0;
         for(Iterator<MapEntry<K, V>> it = bucket.iterator(); it.hasNext();) {
 		    Map.Entry<K, V> entry = it.next();
-		    counter++;
+		    counter++;     // 没调用一次next()方法，就做一次统计
 			if(key.equals(entry.getKey())) {
 				oldValue = entry.getValue();
 				entry.setValue(value);  // Replace old value
