@@ -25,7 +25,7 @@ class SimpleHashMap66<K, V> extends AbstractMap<K, V> {
 		}
 		return oldValue;
 	}
-	
+	@Override
 	public V get(Object key) {
 		int index = Math.abs(key.hashCode()) % SIZE;
 		if(buckets[index] == null)
@@ -47,9 +47,8 @@ class SimpleHashMap66<K, V> extends AbstractMap<K, V> {
 		public Iterator<Entry<K, V>> iterator() {
 			return new Iterator<Entry<K, V>>() {
                 int index;
+                Entry2<K, V> prev, current, next;
                 int count = size();
-                
-                Entry2<K, V> entry, pair;
                 boolean canRemove;
 				@Override
 				public boolean hasNext() {
@@ -58,26 +57,34 @@ class SimpleHashMap66<K, V> extends AbstractMap<K, V> {
 
 				@Override
 				public Entry2<K, V> next() {
-					count--;
-					canRemove = true;
                     if(hasNext()) {
-                    	System.out.println(buckets[1]);
+                    	count--;
+                    	canRemove = true;
                     	while(true) {
-	                    	while(buckets[index] == null) {
-	                    		++index;
-	                    	}
-	                    	try {
-	                    		
-	                    		entry = entry.getNext();
-	                    		return entry;
-	                    	}catch(NullPointerException e) {
+	                    	while(buckets[index] == null)
 	                    		index++;
-	                    	}
+	                    	if(current == null)
+	                    	    next = buckets[index];
+	                    	prev = current;
+	                    	current = next;
+                    		try {
+                    		    next = next.getNext();
+                    		    return current;
+                    		} catch(NullPointerException e) {
+                    			index++;
+                    		}
                     	}
                     }
 					throw new IllegalStateException();
 				}
-				
+				@Override
+				public void remove() {
+					if(prev == null)
+						buckets[index] = next;
+					else
+						prev.setNext(next);
+					current = null;
+				}
 			};
 		}
 
@@ -133,10 +140,12 @@ public class Ex25_SimpleHashMap66Demo {
         m.putAll(new CountingMapData(26));
         System.out.println(m);
         System.out.println("Size: " + m.size());
-//        System.out.println("Keys:" + new TreeSet<Integer>(m.keySet()));
-//        System.out.println("m.get(11): " + m.get(11));
-//        m.remove(m.get(11));
-//        System.out.println(m.containsKey(11));
+        System.out.println("Keys:" + new TreeSet<Integer>(m.keySet()));
+        System.out.println("m.get(11): " + m.get(11));
+        m.remove((Object)m.get(11));
+        System.out.println("m.containsKey(m.get(11)): " + m.containsKey(m.get(11)));
+        m.entrySet().removeAll(m.entrySet());
+        System.out.println("m.isEmtry(): " + m.isEmpty());
 	}
 
 }
