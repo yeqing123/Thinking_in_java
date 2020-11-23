@@ -1,28 +1,34 @@
 package containers;
 import java.util.*;
 
-class SimpleHashMap66<K, V> extends AbstractMap<K, V> {
-	final int SIZE = 997;
+class SimpleHashMap6<K, V> extends AbstractMap<K, V> {
+	private final int SIZE = 9;
 	@SuppressWarnings("unchecked")
 	private Entry2<K, V>[] buckets = new Entry2[SIZE];
 	public V put(K key, V value) {
 		int index = Math.abs(key.hashCode()) % SIZE;
 		Entry2<K, V> newPair = new Entry2<K, V>(key, value);
-		V oldValue = null;
 		if(buckets[index] == null)
 			buckets[index] = newPair;
-		else {
-			Entry2<K, V> prevPair;
-			for(Entry2<K, V> pair = buckets[index]; pair != null; pair = pair.getNext()) {
-				prevPair = pair;
-				if(pair.getKey().equals(key)) {
-					oldValue = pair.getValue();
-					newPair.setNext(pair.getNext());
+		V oldValue = null;
+		boolean found = false;
+		Entry2<K, V> prevPair = null;
+		for(Entry2<K, V> pair = buckets[index]; pair != null; pair = pair.getNext()) {
+			if(pair.getKey().equals(key)) {
+				oldValue = pair.getValue();
+				// Replace with new
+				if(prevPair == null)
+					buckets[index] = newPair;
+				else
 					prevPair.setNext(newPair);
-					break;
-				}
+				newPair.setNext(pair.getNext());
+				found = true;
+				break;
 			}
+		    prevPair = pair;
 		}
+		if(!found)
+			prevPair.setNext(newPair);
 		return oldValue;
 	}
 	@Override
@@ -47,7 +53,7 @@ class SimpleHashMap66<K, V> extends AbstractMap<K, V> {
 		public Iterator<Entry<K, V>> iterator() {
 			return new Iterator<Entry<K, V>>() {
                 int index;
-                Entry2<K, V> prev, current, next;
+                Entry2<K, V> prevEntry, currEntry, nextEntry;
                 int count = size();
                 boolean canRemove;
 				@Override
@@ -63,13 +69,15 @@ class SimpleHashMap66<K, V> extends AbstractMap<K, V> {
                     	while(true) {
 	                    	while(buckets[index] == null)
 	                    		index++;
-	                    	if(current == null)
-	                    	    next = buckets[index];
-	                    	prev = current;
-	                    	current = next;
+	                    	// If currEntry equal 'null', 
+	                    	// indicates linked list is over.
+	                    	if(currEntry == null)
+	                    		nextEntry = buckets[index];
+	                    	prevEntry = currEntry;
+	                    	currEntry = nextEntry;
                     		try {
-                    		    next = next.getNext();
-                    		    return current;
+                    			nextEntry = nextEntry.getNext();
+                    		    return currEntry;
                     		} catch(NullPointerException e) {
                     			index++;
                     		}
@@ -79,11 +87,12 @@ class SimpleHashMap66<K, V> extends AbstractMap<K, V> {
 				}
 				@Override
 				public void remove() {
-					if(prev == null)
-						buckets[index] = next;
+					if(prevEntry == null)
+						buckets[index] = nextEntry;
 					else
-						prev.setNext(next);
-					current = null;
+						prevEntry.setNext(nextEntry);
+					// Release currEntry
+					currEntry = null;
 				}
 			};
 		}
@@ -96,7 +105,12 @@ class SimpleHashMap66<K, V> extends AbstractMap<K, V> {
 					sz++;
 			return sz;
 		}
-		
+		@SuppressWarnings("unchecked")
+		@Override
+		public void clear() {
+			// Again create array, is the method of clear data simplest
+			buckets = new Entry2[SIZE];
+		}
 	}
 }
 
@@ -133,18 +147,30 @@ class Entry2<K, V> implements Map.Entry<K, V> {
 	}
 }
 
-public class Ex25_SimpleHashMap66Demo {
+public class Ex25_SimpleHashMap6Demo {
 
 	public static void main(String[] args) {
-        SimpleHashMap66<Integer, String> m = new SimpleHashMap66<Integer, String>();
+        SimpleHashMap6<Integer, String> m = new SimpleHashMap6<Integer, String>();
         m.putAll(new CountingMapData(26));
         System.out.println(m);
         System.out.println("Size: " + m.size());
         System.out.println("Keys:" + new TreeSet<Integer>(m.keySet()));
         System.out.println("m.get(11): " + m.get(11));
         m.remove((Object)m.get(11));
-        System.out.println("m.containsKey(m.get(11)): " + m.containsKey(m.get(11)));
+        System.out.println("m.containsKey(m.get(11)): " + m.containsKey((Object)m.get(11)));
+        // Remove duplicate tests
+        m.putAll(new CountingMapData(26));
+        System.out.println(m);
         m.entrySet().removeAll(m.entrySet());
+        System.out.println("m.isEmtry(): " + m.isEmpty());
+        m.putAll(new CountingMapData(26));
+        m.keySet().removeAll(m.keySet());
+        System.out.println("m.isEmtry(): " + m.isEmpty());
+        m.putAll(new CountingMapData(26));
+        m.values().removeAll(m.values());
+        System.out.println("m.isEmtry(): " + m.isEmpty());
+        m.putAll(new CountingMapData(26));
+        m.clear();
         System.out.println("m.isEmtry(): " + m.isEmpty());
 	}
 
