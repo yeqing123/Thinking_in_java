@@ -1,7 +1,6 @@
 package containers;
 import java.util.Set;
 import java.util.TreeSet;
-
 import containers.Tuple.*;
 
 class Tuple {
@@ -54,22 +53,25 @@ class Tuple {
         	return "(" + t2.getFirst() + ", " + t2.getSecond() + ", " + third + ")";
         }
         public int hashCode() {
-        	return t2.hashCode() * 37 + third.hashCode();
+        	int result = t2.hashCode();
+        	if(third != null)
+        		result = result * 37 + third.hashCode();
+        	return result;
         }
         @SuppressWarnings("unchecked")
 		public boolean equals(Object o) {
         	if(!(o instanceof T3))
         		return false;
-        	T3<A, B, C> t = (T3<A, B, C>)o;
-        	return t2.equals(new T2<A, B>(t.getFirst(), t.getSecond())) &&
-        			third == null ? t.getThird() == null : third.equals(t.getThird());
+        	T3<A, B, C> tuple = (T3<A, B, C>)o;
+        	return t2.equals(tuple.t2) &&
+        			third == null ? tuple.getThird() == null : third.equals(tuple.getThird());
         }
 		@SuppressWarnings("unchecked")
 		@Override
 		public int compareTo(T3<A, B, C> arg) {
-			int t2Compare = t2.compareTo(new T2<A, B>(arg.getFirst(), arg.getSecond()));
-			if(t2Compare != 0)
-				return t2Compare;
+			int res = t2.compareTo(arg.t2);
+			if(res != 0)
+				return res;
 			return ((Comparable<C>)third).compareTo(arg.getThird());
 		}
 	}
@@ -89,22 +91,25 @@ class Tuple {
         			", " + t3.getThird() + ", " + fourth + ")";
         }
         public int hashCode() {
-        	return t3.hashCode() *37 + fourth.hashCode();
+        	int result = t3.hashCode();
+        	if(fourth != null)
+        		result = result * 37 + fourth.hashCode();
+        	return result;
         }
         @SuppressWarnings("unchecked")
 		public boolean equals(Object o) {
         	if(!(o instanceof T4))
         		return false;
-        	T4<A, B, C, D> t = (T4<A, B, C, D>)o;
-        	return t3.equals(new T3<A, B, C>(t.getFirst(), t.getSecond(), t.getThird())) && 
-        			fourth == null ? t.getFourth() == null : fourth.equals(t.getFourth());
+        	T4<A, B, C, D> tuple = (T4<A, B, C, D>)o;
+        	return t3.equals(tuple.t3) && 
+        			fourth == null ? tuple.getFourth() == null : fourth.equals(tuple.getFourth());
         }
 		@SuppressWarnings("unchecked")
 		@Override
 		public int compareTo(T4<A, B, C, D> arg) {
-            int t3Compare = t3.compareTo(new T3<A, B, C>(arg.getFirst(), arg.getSecond(), arg.getThird()));
-            if(t3Compare != 0)
-            	return t3Compare;
+            int res = t3.compareTo(arg.t3);
+            if(res != 0)
+            	return res;
 			return ((Comparable<D>)fourth).compareTo(arg.getFourth());
 		}
 	}
@@ -125,23 +130,25 @@ class Tuple {
                 t4.getThird() + ", " + t4.getFourth() + ", " + fifth + ")";
         }
         public int hashCode() {
-        	return t4.hashCode() * 37 + fifth.hashCode();
+        	int result = t4.hashCode();
+        	if(fifth != null)
+        	    result = result * 37 + fifth.hashCode();
+        	return result;
         }
         @SuppressWarnings("unchecked")
 		public boolean equals(Object o) {
         	if(!(o instanceof T5))
         		return false;
-        	T5<A, B, C, D, E> t = (T5<A, B, C, D, E>)o;
-        	return t4.equals(new T4<A, B, C, D>(t.getFirst(), t.getSecond(), t.getThird(), t.getFourth())) &&
-        			fifth == null ? t.getFifth() == null : fifth.equals(t.getFifth());
+        	T5<A, B, C, D, E> tuple = (T5<A, B, C, D, E>)o;
+        	return t4.equals(tuple.t4) &&
+        			fifth == null ? tuple.getFifth() == null : fifth.equals(tuple.getFifth());
         }
 		@SuppressWarnings("unchecked")
 		@Override
 		public int compareTo(T5<A, B, C, D, E> arg) {
-			int t4Compare = t4.compareTo(
-					new T4<A, B, C, D>(arg.getFirst(), arg.getSecond(), arg.getThird(), arg.getFourth()));
-			if(t4Compare != 0)
-				return t4Compare;
+			int res = t4.compareTo(arg.t4);
+			if(res != 0)
+				return res;
 			return ((Comparable<E>)fifth).compareTo(arg.getFifth());
 		}
 	}
@@ -164,26 +171,27 @@ class Tuple {
 public class Ex28_UniversalTupleTest {
  
 	public static void main(String[] args) {
-		Set<T2<?, ?>> t2Set = new TreeSet<T2<?, ?>>();
-		Set<T3<?, ?, ?>> t3Set = new TreeSet<T3<?, ?, ?>>();
-        T2<String, Integer> t2_1 =  Tuple.tuple("C", 10);
-        T2<String, Integer> t2_2 =  Tuple.tuple("B", 8);
-        T2<String, Integer> t2_3 =  Tuple.tuple("A", 14);
-        T2<String, Integer> t2_4 =  Tuple.tuple("B", 9);
-        T3<String, Integer, Character> t3_1 = Tuple.tuple("D", 17, 'c');
-        T3<String, Integer, Character> t3_2 = Tuple.tuple("F", 19, 'b');
-        T3<String, Integer, Character> t3_3 = Tuple.tuple("E", 15, 'd');
-        T3<String, Integer, Character> t3_4 = Tuple.tuple("F", 19, 'e');
-        t2Set.add(t2_1);
-        t2Set.add(t2_2);
-        t2Set.add(t2_3);
-        t2Set.add(t2_4);
-        t3Set.add(t3_1);
-        t3Set.add(t3_2);
-        t3Set.add(t3_3);
-        t3Set.add(t3_4);
-        System.out.println(t2Set);
-        System.out.println(t3Set);
+		Set<T5<?, ?, ?, ?, ?>> t5Set = new TreeSet<T5<?, ?, ?, ?, ?>>();
+        T5<String, Float, Integer, Character, Boolean> 
+        t5_1 = Tuple.tuple("C", (float)3, 10, 'd', true),
+        t5_2 = Tuple.tuple("B", (float)4, 12, 'b', false),
+        t5_3 = Tuple.tuple("A", (float)7, 15, 'e', true),
+        t5_4 = Tuple.tuple("A", (float)7, 17, 'a', false);
+        t5Set.add(t5_1);
+        t5Set.add(t5_2);
+        t5Set.add(t5_3);
+        t5Set.add(t5_4);
+        System.out.println("t5_1:" + t5_1);
+        System.out.println("t5_2:" + t5_2);
+        System.out.println("t5_3:" + t5_3);
+        System.out.println("t5_4:" + t5_4);
+        System.out.println("t5_1.equals(t5_2):" + t5_1.equals(t5_2));
+        System.out.println("t5_1.equals(t5_1):" + t5_1.equals(t5_1));
+        System.out.println("t5_1.compareTo(t5_2):" + t5_1.compareTo(t5_2));
+        System.out.println("t5_1.compareTo(t5_1):" + t5_1.compareTo(t5_1));
+        System.out.println("t5_3.compareTo(t5_4):" + t5_3.compareTo(t5_4));
+        // As you can see, TreeSet in the collection elements sorted automatically.
+        System.out.println(t5Set);
 	}
 
 }
