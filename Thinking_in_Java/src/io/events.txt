@@ -1,0 +1,6 @@
+ThermostatNight=200
+LightOn=400
+LightOff=600
+WaterOn=800
+WaterOff=1000
+ThermostatDay=1200
