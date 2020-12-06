@@ -52,7 +52,7 @@ public class GreenhouseControls extends Controller {
 		public void action() {
 			addEvent(new Bell(delayTime));
 		}
-		public String toString() { return "Bing"; }
+		public String toString() { return "Bing!"; }
 	}
 	public class Restart extends Event {
 		private Event[] eventList;
