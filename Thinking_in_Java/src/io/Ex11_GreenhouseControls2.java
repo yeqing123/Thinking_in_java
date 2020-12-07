@@ -43,13 +43,13 @@ class GreenhouseControls2 extends GreenhouseControls {
 						new BufferedReader(new FileReader(eventFile));
 				String s;
 				while((s = in.readLine()) != null) {
-					int colon = s.indexOf(":");
+					int colon = s.indexOf(':');
 					// Must use '$' instead of ':' to
 					// describe inner classes:
 					String className = s.substring(0, colon).trim();
 					Class<?> outer = className.equals("Restart") ?
-							GreenhouseControls2.class :
-							GreenhouseControls.class;
+							GreenhouseControls2.class : 
+								GreenhouseControls.class;
 					String type = 
 							outer.getName() + "$" + className;
 					long offset = Long.parseLong(s.substring(colon + 1).trim());
@@ -57,8 +57,7 @@ class GreenhouseControls2 extends GreenhouseControls {
 					// the right constructor:
 					Class<Event> eventClass = 
 							(Class<Event>)Class.forName(type);
-					// Inner class constructors implicitly
-					// take the outer-class object as a
+					// Inner class outer-class object as a
 					// first argument:
 					Constructor<Event> ctor = 
 							eventClass.getConstructor(new Class<?>[] {outer, long.class});
@@ -70,23 +69,21 @@ class GreenhouseControls2 extends GreenhouseControls {
 		}
 		Iterator<Event> iterator() {
 			return new Iterator<Event>() {
-                Iterator<EventCreator> it = events.iterator();
+				Iterator<EventCreator> it = events.iterator();
 				@Override
 				public boolean hasNext() {
 					return it.hasNext();
 				}
 				@Override
 				public Event next() {
-                    EventCreator ec = it.next();
-                    Event returnVal = null;
-                    try {
-                    	returnVal = ec.ctor.newInstance(
-                    			new Object[] {
-                    					GreenhouseControls2.this, ec.offset
-                    			});
-                    } catch(Exception e) {
-                    	throw new RuntimeException(e);
-                    }
+					EventCreator ec = it.next();
+					Event returnVal = null;
+					try {
+						returnVal = ec.ctor.newInstance(
+								new Object[] {GreenhouseControls2.this, ec.offset});
+					} catch(Exception e) {
+						throw new RuntimeException(e);
+					}
 					return returnVal;
 				}
 				public void remove() {
@@ -114,21 +111,21 @@ class GreenhouseControls2 extends GreenhouseControls {
 			Event e = it.next();
 			addEvent(e);
 			if(e instanceof Restart)
-				((Restart)e).setEventList(restartableEvents.toArray(new Event[0]));
+				((Restart)e).setEventList(
+						restartableEvents.toArray(new Event[0]));
 		}
 	}
 }
 
 public class Ex11_GreenhouseControls2 {
 	public static void main(String[] args) {
-		GreenhouseControls2 gc = 
-				new GreenhouseControls2("./src/io/events.dat");
+		GreenhouseControls gc = new GreenhouseControls2("./src/io/events.dat");
 		try {
-			if(args.length == 1)
+			if(args.length == 0)
 				gc.addEvent(new GreenhouseControls.Terminate(
 						Long.parseLong(args[0])));
 		} catch(NumberFormatException e) {
-			System.err.println("Terminate event is not added!");
+			System.err.println("Terminame event is not added!");
 			e.printStackTrace();
 		}
 		gc.run();
