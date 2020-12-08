@@ -3,7 +3,6 @@ import java.util.*;
 import java.io.*;
 import java.lang.reflect.*;
 import innerclasses.GreenhouseControls;
-import innerclasses.GreenhouseControls.Terminate;
 import innerclasses.controller.*;
 
 class GreenhouseControls2 extends GreenhouseControls {
@@ -121,7 +120,7 @@ public class Ex11_GreenhouseControls2 {
 	public static void main(String[] args) {
 		GreenhouseControls gc = new GreenhouseControls2("./src/io/events.dat");
 		try {
-			if(args.length == 0)
+			if(args.length != 0)
 				gc.addEvent(new GreenhouseControls.Terminate(
 						Long.parseLong(args[0])));
 		} catch(NumberFormatException e) {

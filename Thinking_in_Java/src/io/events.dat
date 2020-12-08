@@ -5,4 +5,4 @@ WaterOn: 600000
 WaterOff: 800000 
 Bell: 1000000 
 ThermostatDay: 1400000 
-Restart: 2000000 
+Restart: 2000000
