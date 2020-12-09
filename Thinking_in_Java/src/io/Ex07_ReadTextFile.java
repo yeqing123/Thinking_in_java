@@ -1,7 +1,6 @@
 package io;
 import java.io.*;
-import java.util.Collections;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Ex07_ReadTextFile {
     public static LinkedList<String> read(String filename) throws IOException {
@@ -11,12 +10,12 @@ public class Ex07_ReadTextFile {
 		while((s = in.readLine()) != null)
 			list.add(s);
 		in.close();
-		Collections.reverse(list);
 		return list;
     }
 	public static void main(String[] args) throws IOException {
-		for(String line : read("./src/io/Ex07_ReadTextFile.java"))
-			System.out.println(line);
+		List<String> list = read("./src/io/Ex07_ReadTextFile.java");
+	    for(ListIterator<String> it = list.listIterator(list.size()); it.hasPrevious();)
+	    	System.out.println(it.previous());
  	}
 
 }
