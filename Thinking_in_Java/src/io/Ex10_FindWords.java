@@ -1,5 +1,5 @@
 package io;
-// {Args: ./src/io/Ex10_FindWordFromFile.java 
+// {Args: ./src/io/Ex10_FindWords.java 
 // line words static}
 import java.io.IOException;
 import java.util.*;
