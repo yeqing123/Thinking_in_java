@@ -1,7 +1,7 @@
 package io;
 import java.io.*;
 
-public class Each {
+public class Echo {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader stdin = new BufferedReader(
