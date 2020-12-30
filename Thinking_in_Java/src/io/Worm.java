@@ -24,6 +24,9 @@ public class Worm implements Serializable {
 		if(--i > 0)
 		    this.next = new Worm(i, (char)(x + 1));
 	}
+	public Worm() {
+		System.out.println("Default constructor");
+	}
 	public String toString() {
 		StringBuilder result = new StringBuilder(":");
 		result.append(c);
@@ -39,9 +42,10 @@ public class Worm implements Serializable {
 		ObjectOutputStream out = new ObjectOutputStream(
 				new FileOutputStream("./src/io/worm.out"));
 		Worm w = new Worm(6, 'a');
+		System.out.println("w = " + w);
 		out.writeObject("Worm storage\n");
 		out.writeObject(w);
-		out.close();
+		out.close();   // Also flushes output
 		ObjectInputStream in = new ObjectInputStream(
 				new FileInputStream("./src/io/worm.out"));
 		String s = (String)in.readObject();
@@ -51,6 +55,7 @@ public class Worm implements Serializable {
 		ObjectOutputStream out2 = new ObjectOutputStream(bout);
 		out2.writeObject("Worm storage\n");
 		out2.writeObject(w);
+		out2.flush();
 		ObjectInputStream in2 = new ObjectInputStream(
 				new ByteArrayInputStream(bout.toByteArray()));
 		s = (String)in2.readObject();
