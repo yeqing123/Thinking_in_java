@@ -2,8 +2,8 @@ package io;
 import java.io.*;
 
 public class Blip3 implements Externalizable {
-    private int i;
-    private String s;
+    protected int i;
+    protected String s;
     public Blip3() {
     	System.out.println("Blip3 default constructor");
     	// i, s not initialized
@@ -44,6 +44,7 @@ public class Blip3 implements Externalizable {
         		new FileInputStream("./src/io/Blip3.out"));
         System.out.println("Recovering object:");
         b3 = (Blip3)in.readObject();
+        System.out.println(b3);
 	}
 
 }

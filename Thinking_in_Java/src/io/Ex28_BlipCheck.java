@@ -2,7 +2,7 @@ package io;
 import java.io.*;
 
 public class Ex28_BlipCheck implements Externalizable {
-//	public Ex28_BlipCheck() {
+//	Ex28_BlipCheck() {
 //		System.out.println("BlipCheck constructor");
 //	}
 	public void writeExternal(ObjectOutput out) throws IOException {
