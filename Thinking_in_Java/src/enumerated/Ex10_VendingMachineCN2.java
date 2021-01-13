@@ -10,8 +10,8 @@ class VendingMachineCN2 {
 	    private InputCN selection; 
 	} 
 	private static Map<Machine,Context> em = 
-		 Collections.synchronizedMap( 
-    new EnumMap<Machine,Context>(Machine.class)); 
+	    Collections.synchronizedMap(
+	    		new EnumMap<Machine,Context>(Machine.class)); 
 	static { 
         for(Machine m : Machine.values()) 
 		    em.put(m, new Context()); 
@@ -46,7 +46,8 @@ class VendingMachineCN2 {
     				break;
     			case 选择商品:
     				selection = input;
-    				System.out.println("选择商品：" + selection + "（单价：" + selection.amount() + "分）");
+    				System.out.println("选择商品：" + selection + 
+    						"（单价：" + selection.amount() + "分）");
     				if(amount < selection.amount())
     					System.out.println("金额不足，请继续投币...");
     				else
@@ -79,7 +80,7 @@ class VendingMachineCN2 {
     		}
     	},
     	终止 {
-    		void output() { System.out.println("**** 关机 ****"); }
+    		void output() { System.out.println("****** 关机   ******"); }
     	};
     	private boolean isTransient = false;
     	State() {}
@@ -92,9 +93,9 @@ class VendingMachineCN2 {
     	}
     	void output() { System.out.println("当前余额： " + amount + "分"); }
 	} 
-	// This method is now taking an extra parameter denoting 
-	// the ID of the VendingMachine "instance". 
+	// run()方法需要一个额外的参数，它表示自动售货机“实例”的id。
 	static void run(Generator<InputCN> gen, Machine m) { 
+		System.out.println("**** 机器：" + m.toString() + " ****");
 		Context ctx = em.get(m); 
 		while(ctx.state != State.终止) { 
 		    lock.lock(); 
@@ -105,11 +106,11 @@ class VendingMachineCN2 {
 		        state.next(gen.next()); 
 		        while(state.isTransient) 
 		            state.next(); 
-		            state.output(); 
-		            ctx.state = state; 
-		            ctx.amount = amount; 
-		            ctx.selection = selection; 
-		            em.put(m, ctx); 
+	            state.output(); 
+	            ctx.state = state; 
+	            ctx.amount = amount; 
+	            ctx.selection = selection; 
+	            em.put(m, ctx); 
 		    } finally { 
 		        lock.unlock(); 
 		    } 

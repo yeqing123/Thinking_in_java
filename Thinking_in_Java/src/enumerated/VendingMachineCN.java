@@ -4,7 +4,6 @@ import static enumerated.InputCN.*;
 import java.util.*;
 import net.mindview.util.*;
 
-
 enum CategoryCN {
 /*
     MONEY(NICKEL, DIME, QUARTER, DOLLAR),
@@ -122,10 +121,12 @@ public class VendingMachineCN {
 	}
 }
 
+// 如果没有指定文件，会进行无限次随机测试
 class RandomInputGeneratorCN implements Generator<InputCN> {
 	public InputCN next() { return InputCN.randomSelection(); }
 }
 
+// 通过“;”分隔文件中的内容，来创建InputCN实例：
 class FileInputGeneratorCN implements Generator<InputCN> {
 	private Iterator<String> input;
 	public FileInputGeneratorCN(String fileName) {
