@@ -1,42 +1,50 @@
+// {Args: ./src/enumerated/VendingMachineInput_CN.txt}
 package enumerated;
-import static enumerated.InputEx.*;
+import static enumerated.InputCN.*;
 import java.util.*;
 import net.mindview.util.*;
 
 
-enum CategoryEx {
+enum CategoryCN {
+/*
+    MONEY(NICKEL, DIME, QUARTER, DOLLAR),
+	ITEM_SELECTION(TOOTHPASTE, CHIPS, SODA, SOAP),
+	QUIT_TRANSACTION(ABORT_TRANSACTION),
+	SHUT_DOWN(STOP);
+ */
     投币(五分硬币, 十分硬币, 二十五分硬币, 壹元),
     选择商品(牙膏, 炸薯条, 苏打水, 肥皂),
     取消操作(中止事务),
     关闭(停止);
-	private InputEx[] values;
-	CategoryEx(InputEx... types) { values = types; }
-	private static EnumMap<InputEx, CategoryEx> categories = 
-			new EnumMap<InputEx, CategoryEx>(InputEx.class);
+	private InputCN[] values;
+	CategoryCN(InputCN... types) { values = types; }
+	private static EnumMap<InputCN, CategoryCN> categories = 
+			new EnumMap<InputCN, CategoryCN>(InputCN.class);
 	static {
-		for(CategoryEx c : CategoryEx.values())
-			for(InputEx type : c.values)
+		for(CategoryCN c : CategoryCN.values())
+			for(InputCN type : c.values)
 				categories.put(type, c);
 	}
-	public static CategoryEx categorize(InputEx input) {
+	public static CategoryCN categorize(InputCN input) {
 		return categories.get(input);
 	}
 }
-public class VendingMachineEx {
+
+
+public class VendingMachineCN {
     private static State state = State.休眠中;
     private static int amount = 0;
-    private static InputEx selection = null;
+    private static InputCN selection = null;
     enum StateDuration { 临时的 }
     enum State {
     	休眠中 {
-    		void next(InputEx input) {
+    		void next(InputCN input) {
     			System.out.println("自动售货机休眠中...");
-    			switch(CategoryEx.categorize(input)) {
+    			switch(CategoryCN.categorize(input)) {
     			case 投币:
     				amount += input.amount();
-    				state = 运行;
+    				state = 运行中;
     				System.out.println("运行，投币中...");
-    				System.out.println("累计付款金额：");
     				break;
     			case 关闭:
     				state = 终止;
@@ -44,15 +52,15 @@ public class VendingMachineEx {
     			}
     		}
     	},
-    	运行 {
-    		void next(InputEx input) {
-    			switch(CategoryEx.categorize(input)) {
+    	运行中 {
+    		void next(InputCN input) {
+    			switch(CategoryCN.categorize(input)) {
     			case 投币:
     				amount += input.amount();
     				break;
     			case 选择商品:
     				selection = input;
-    				System.out.println("选择商品：" + selection + "， 标价：" + selection.amount());
+    				System.out.println("选择商品：" + selection + "（单价：" + selection.amount() + "分）");
     				if(amount < selection.amount())
     					System.out.println("金额不足，请继续投币...");
     				else
@@ -73,7 +81,6 @@ public class VendingMachineEx {
     			System.out.println("交易成功！");
     			amount -= selection.amount();
     			state = 找零;
-    			System.out.println("");
     		}
     	},
     	找零(StateDuration.临时的) {
@@ -91,15 +98,15 @@ public class VendingMachineEx {
     	private boolean isTransient = false;
     	State() {}
     	State(StateDuration trans) { isTransient = true; }
-    	void next(InputEx input) {
+    	void next(InputCN input) {
     		throw new RuntimeException("只有在非瞬时状态下才可以调用next(Input input)方法");
     	}
     	void next() {
     		throw new RuntimeException("只有在瞬时状态下才可以调用next()方法");
     	}
-    	void output() { System.out.println(amount + "分"); }
+    	void output() { System.out.println("当前余额： " + amount + "分"); }
     }
-    static  void run(Generator<InputEx> gen) {
+    static  void run(Generator<InputCN> gen) {
     	while(state != State.终止) {
     		state.next(gen.next());
     		while(state.isTransient)
@@ -108,25 +115,25 @@ public class VendingMachineEx {
     	}
     }
 	public static void main(String[] args) {
-        Generator<InputEx> gen = new RandomInputGenerator2();
+        Generator<InputCN> gen = new RandomInputGeneratorCN();
         if(args.length == 1)
-        	gen = new FileInputGenerator2(args[0]);
+        	gen = new FileInputGeneratorCN(args[0]);
         run(gen);
 	}
 }
 
-class RandomInputGenerator2 implements Generator<InputEx> {
-	public InputEx next() { return InputEx.randomSelection(); }
+class RandomInputGeneratorCN implements Generator<InputCN> {
+	public InputCN next() { return InputCN.randomSelection(); }
 }
 
-class FileInputGenerator2 implements Generator<InputEx> {
+class FileInputGeneratorCN implements Generator<InputCN> {
 	private Iterator<String> input;
-	public FileInputGenerator2(String fileName) {
+	public FileInputGeneratorCN(String fileName) {
 		input = new TextFile(fileName, ";").iterator();
 	}
-	public InputEx next() {
+	public InputCN next() {
 		if(!input.hasNext())
 			return null;
-		return Enum.valueOf(InputEx.class, input.next().trim());
+		return Enum.valueOf(InputCN.class, input.next().trim());
 	}
 }
