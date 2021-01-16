@@ -1,3 +1,4 @@
+// Switching one enum on another.
 package enumerated;
 import static enumerated.Outcome.*;
 
