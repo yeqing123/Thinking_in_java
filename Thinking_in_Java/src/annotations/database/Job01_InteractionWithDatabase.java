@@ -2,8 +2,8 @@ package annotations.database;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.io.*;
 
 public class Job01_InteractionWithDatabase {
     private static String DBDRIVER = "com.mysql.cj.jdbc.Driver";
@@ -15,15 +15,22 @@ public class Job01_InteractionWithDatabase {
 		Connection conn = null;
 		Statement stem = null;
 		ResultSet rs = null;
+		if(args.length < 1) {
+			System.out.println("arguments: A file with database operation infomation.");
+			System.exit(0);
+		}
 		try {
-		    Class.forName(DBDRIVER);
-		    conn = DriverManager.getConnection(DBURL, DBUSER, DBPASSWORD);
-		    stem = conn.createStatement();
-		    String sql = getSQLCommand(args);
+			Class.forName(DBDRIVER);
+			conn = DriverManager.getConnection(DBURL, DBUSER, DBPASSWORD);
+			stem = conn.createStatement();
+			BufferedReader read = new BufferedReader(
+					new InputStreamReader(new FileInputStream(args[0])));
+			String info = null, sql = null;
+			while((info = read.readLine()) != null) {
+				sql = getSQLCommand(info);
+			}
 		    System.out.println(
 		    		"******* 用于操作数据库的SQL语句为: *******\n" + sql);
-		    stem.executeUpdate(sql);
-		    sql = "insert into member value('steven', 'ye', 38, '001');";
 		    stem.executeUpdate(sql);
 		    rs = stem.executeQuery("select * from member");
 		    System.out.println("\n****** 打印member表： ******");
@@ -53,29 +60,20 @@ public class Job01_InteractionWithDatabase {
 		}
         
 	}
-	public static String getSQLCommand(String[] args) throws Exception {
-		if(args.length < 1) {
-			System.out.println("Arguments: annotated classes.");
+	public static String getSQLCommand(String fileName) throws Exception {
+		StringBuilder sql = new StringBuilder();
+		Class<?> cl = Class.forName(fileName);
+		DBTable dbTable = cl.getAnnotation(DBTable.class);
+		if(dbTable == null) {
+			System.out.println("在给定的类" + cl.getName() + "中没有DBTable注释！");
 			System.exit(0);
 		}
-		String sql = "";
-		for(String className : args) {
-			Class<?> cl = Class.forName(className);
-			DBTable dbTable = cl.getAnnotation(DBTable.class);
-            CommandType commaType = cl.getAnnotation(CommandType.class);
-			if(dbTable == null) {
-				System.out.println("No DBTable annotation in class " + className);
-				continue;
-			}
-			String tableName = dbTable.name();
-			String typeName = commaType.name();
-			// If the name if empty, use the Class name:
-			if(tableName.length() < 1)
-				tableName = cl.getName().toUpperCase();
-			if(typeName.length() < 1)
-				typeName = args[1].split(" ")[0].toUpperCase();
+		String tableName = dbTable.name();
+		// 如果name()为空，则用Class的名称
+		if(tableName.length() < 1)
+			tableName = cl.getName().toUpperCase();
+		
 			List<String> columnDefs = new ArrayList<String>();
-			StringBuilder createCommand = new StringBuilder(" " + tableName + "(");
 			for(Field field : cl.getDeclaredFields()) {
 				String columnName = null;
 				Annotation[] anns = field.getDeclaredAnnotations();
@@ -92,19 +90,23 @@ public class Job01_InteractionWithDatabase {
 				}
 				if(anns[0] instanceof SQLString) {
 					SQLString sString = (SQLString) anns[0];
-					// Use field name if name not specified.
+					// 如果没有指定名称，则用域名
 					if(sString.name().length() < 1)
 						columnName = field.getName().toUpperCase();
 					else
 						columnName = sString.name();
 					columnDefs.add(columnName + " VARCHAR(" + sString.value() + ")" +
-						getConstraints(sString.constraints()));
+							getConstraints(sString.constraints()));
 				}
-				for(String columnDef : columnDefs)
-					createCommand.append("\n  " + columnDef + ",");
-				// Remove trailing comma
-				sql = createCommand.substring(0, createCommand.length() - 1) + ");";
 			}
+			for(String columnDef : columnDefs)
+				sql.append("\n  " + columnDef + ",");
+			// 删除最后多余的逗号
+			return sql.substring(0, sql.length() - 1) + ");";
+		} else if("insert".equalsIgnoreCase(items[0])) {
+		    
+		}
+		
 		}
 		return sql;
     }

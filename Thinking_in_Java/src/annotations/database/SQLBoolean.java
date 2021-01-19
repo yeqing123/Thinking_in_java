@@ -1,8 +1,9 @@
 package annotations.database;
 import java.lang.annotation.*;
 
-@Target(ElementType.TYPE)      // Applies to classes only
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface CommandType {
+public @interface SQLBoolean {
     String name() default "";
+    Constraints constraints() default @Constraints;
 }
