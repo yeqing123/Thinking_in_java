@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/admin01/Desktop/工具包/net.mindview.util.jar"/>
 	<classpathentry kind="lib" path="C:/Users/admin01/Desktop/工具包/mysql-connector-java-8.0.18.jar"/>
+	<classpathentry kind="lib" path="C:/Users/admin01/Desktop/工具包/apt-mirror-api-0.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/64jdk1.8.0_121"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
