@@ -10,14 +10,15 @@ public class HashSetTest {
     }
     @Test void _contains() {
     	testObject.add("one");
-    	assert testObject.isEmpty();
+    	assert testObject.contains("one");
     }
     @Test void _remove() {
     	testObject.add("one");
     	testObject.remove("one");
+    	assert testObject.isEmpty();
     }
 	public static void main(String[] args) {
-        OSExecute.command("java net.mindview.atunit.AtUnit HashSetTest");
+        OSExecute.command("cd bin & java net.mindview.atunit.AtUnit annotations/HashSetTest");
 	}
 
 }

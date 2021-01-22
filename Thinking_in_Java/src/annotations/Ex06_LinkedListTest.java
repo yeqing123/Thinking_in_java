@@ -18,6 +18,6 @@ public class Ex06_LinkedListTest {
     	assert testObject.isEmpty();
     }
 	public static void main(String[] args) {
-        OSExecute.command("java net.mindview.atunit.AtUnit Ex06_LinkedListTest");
+        OSExecute.command("cd bin & java net.mindview.atunit.AtUnit annotations/Ex06_LinkedListTest");
 	}
 }

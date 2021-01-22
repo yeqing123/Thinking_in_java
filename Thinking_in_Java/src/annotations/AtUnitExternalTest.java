@@ -10,6 +10,6 @@ public class AtUnitExternalTest extends AtUnitExample1 {
     	return methodTwo() == 2;
     }
 	public static void main(String[] args) {
-        OSExecute.command("java net.mindview.atunit.AtUnit AtUnitExternalTest");
+        OSExecute.command("cd bin & java net.mindview.atunit.AtUnit annotations/AtUnitExternalTest");
 	}
 }

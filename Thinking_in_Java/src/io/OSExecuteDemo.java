@@ -3,7 +3,7 @@ package io;
 public class OSExecuteDemo {
 
 	public static void main(String[] args) {
-        OSExecute.command("javap /bin/io/OSExecuteDemo");
+        OSExecute.command("cd bin & javap io/OSExecuteDemo");
 	}
 
 }

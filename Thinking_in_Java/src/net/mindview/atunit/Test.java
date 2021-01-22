@@ -1,4 +1,4 @@
-package annotations;
+package net.mindview.atunit;
 import java.lang.annotation.*;
 
 @Target(ElementType.METHOD)

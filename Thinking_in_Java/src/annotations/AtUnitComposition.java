@@ -11,7 +11,7 @@ public class AtUnitComposition {
     	return testObject.methodTwo() == 2;
     }
 	public static void main(String[] args) {
-        OSExecute.command("java net.mindview.atunit.AtUnit AtUnitComposition");
+        OSExecute.command("cd bin & java net.mindview.atunit.AtUnit annotations/AtUnitComposition");
 	}
 
 }

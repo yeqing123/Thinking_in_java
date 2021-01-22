@@ -1,15 +1,15 @@
 package annotations;
 import java.util.*;
 import net.mindview.util.*;
-import net.minview.atunit.*;
+import net.mindview.atunit.*;
 
-public class Ex07_LinkedListTestWithInherit extends LinkedList {
+public class Ex07_LinkedListTest2 extends LinkedList {
     @Test void initialization() {
 	    assert this.isEmpty();
     }
     @Test void _contains() {
     	this.add("one");
-    	assert this.isEmpty();
+    	assert this.contains("one");
     }
     @Test void _remove() {
     	this.add("one");
@@ -17,8 +17,8 @@ public class Ex07_LinkedListTestWithInherit extends LinkedList {
     	this.isEmpty();
     }
 	public static void main(String[] args) {
-		OSExecute.command(
-				"java net.mindview.atunit.AtUnit Ex07_LinkedListTestWithInherit");
+		OSExecute.command("cd bin & java net.mindview.atunit.AtUnit" + 
+	        " annotations/Ex07_LinkedListTest2");
 	}
 
 }

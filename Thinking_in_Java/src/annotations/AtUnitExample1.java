@@ -21,7 +21,7 @@ public class AtUnitExample1 {
     @Test boolean failureTest() { return false; }
     @Test boolean anotherDisappointment() { return false; }
 	public static void main(String[] args) {
-        OSExecute.command("java net.mindview.atunit.AtUnit AtUnitExample1");
+        OSExecute.command("cd bin & java net.mindview.atunit.AtUnit annotations/AtUnitExample1");
 	}
 
 }

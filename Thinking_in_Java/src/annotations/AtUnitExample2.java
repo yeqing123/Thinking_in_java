@@ -26,7 +26,7 @@ public class AtUnitExample2 {
     	return methodOne().equals("This is methodOne");
     }
 	public static void main(String[] args) {
-        OSExecute.command("java net.mindview.atunit.AtUnit AtUnitExample2");
+        OSExecute.command("cd bin & java net.mindview.atunit.AtUnit annotations/AtUnitExample2");
 	}
 
 }
