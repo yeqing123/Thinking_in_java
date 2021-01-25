@@ -1,5 +1,3 @@
-/annotations/
-/arrays/
 /containers/
 /enumerated/
 /generics/
@@ -8,4 +6,4 @@
 /io/
 /net/
 /typeinfo/
-/chapter_strings/
+/annotations/
