@@ -1,10 +1,12 @@
-/containers/
+/chapter_strings/
 /enumerated/
+/io/
+/annotations/
+/arrays/
+/concurrency/
+/containers/
 /generics/
 /holding/
 /innerclasses/
-/io/
 /net/
 /typeinfo/
-/annotations/
-/concurrency/
