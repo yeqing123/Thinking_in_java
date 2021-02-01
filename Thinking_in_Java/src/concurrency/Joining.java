@@ -38,7 +38,6 @@ class Joiner extends Thread {
 }
 
 public class Joining {
-
 	public static void main(String[] args) {
         Sleeper
             sleepy = new Sleeper("Sleepy", 1500),
@@ -48,5 +47,4 @@ public class Joining {
             doc = new Joiner("Doc", grumpy);
         grumpy.interrupt();	
 	}
-
 }
