@@ -19,7 +19,7 @@ public class EvenChecker implements Runnable {
     }
     // Test any type of IntGenerator:
     public static void test(IntGenerator gp, int count) {
-    	System.out.println("Press Coutrol-C to exit");
+    	System.out.println("Press Control-C to exit");
     	ExecutorService exec = Executors.newCachedThreadPool();
     	for(int i = 0; i < count; i++)
     		exec.execute(new EvenChecker(gp, i));
