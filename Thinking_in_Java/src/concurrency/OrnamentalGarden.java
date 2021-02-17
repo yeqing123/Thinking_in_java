@@ -1,6 +1,6 @@
 package concurrency;
-import java.util.concurrent.*;
 import java.util.*;
+import java.util.concurrent.*;
 
 class Count {
 	private int count = 0;
@@ -8,7 +8,7 @@ class Count {
 	// Remove the synchronized keyword to see counting fail:
 	public synchronized int increment() {
 		int temp = count;
-		if(rand.nextBoolean())  // Yield half the time
+		if(rand.nextBoolean()) // Yield half the time
 			Thread.yield();
 		return (count = ++temp);
 	}
@@ -17,8 +17,7 @@ class Count {
 
 class Entrance implements Runnable {
 	private static Count count = new Count();
-	private static List<Entrance> entrances = 
-			new ArrayList<Entrance>();
+	private static List<Entrance> entrances = new ArrayList<Entrance>();
 	private int number = 0;
 	// Doesn't need synchronization to read:
 	private final int id;
