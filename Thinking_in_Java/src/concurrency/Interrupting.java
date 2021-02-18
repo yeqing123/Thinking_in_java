@@ -27,12 +27,13 @@ class IOBlocked implements Runnable {
 				throw new RuntimeException();
 			}
 		}
+		System.out.println("Exiting IOBlocked.run()");
 	}
 }
 
 class SynchronizedBlocked implements Runnable {
 	public synchronized void f() {
-		while(true)  // Never releases lock
+		while(true)    // Never releases lock
 			Thread.yield();
 	}
 	public SynchronizedBlocked() {
