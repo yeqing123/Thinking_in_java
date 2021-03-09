@@ -29,21 +29,21 @@ class CustomerLine extends ArrayBlockingQueue<Customer> {
 	}
 }
 
-// Randomly add customer to a queue:
+// Randomly add customers to a queue:
 class CustomerGenerator implements Runnable {
 	private CustomerLine customers;
 	private static Random rand = new Random(47);
-	public CustomerGenerator(CustomerLine cq) {
-		customers = cq;
+	public CustomerGenerator(CustomerLine customers) {
+		this.customers = customers;
 	}
 	public void run() {
 		try {
 			while(!Thread.interrupted()) {
 				TimeUnit.MILLISECONDS.sleep(rand.nextInt(300));
-				customers.add(new Customer(rand.nextInt(1000)));
+				customers.put(new Customer(rand.nextInt(1000)));
 			}
 		} catch(InterruptedException e) {
-			System.out.println("CustomerGenerator interrupted");
+			System.out.println("CustomerGenerator interruped");
 		}
 		System.out.println("CustomerGenerator terminating");
 	}
@@ -79,15 +79,15 @@ class Teller implements Runnable, Comparable<Teller> {
 	}
 	public synchronized void serveCustomerLine() {
 		assert !servingCustomerLine : "already serving: " + this;
-	    servingCustomerLine = true;
-	    notifyAll();
+        servingCustomerLine = true;
+        notifyAll();
 	}
 	public String toString() { return "Teller " + id + " "; }
 	public String shortString() { return "T" + id; }
 	// Used by priority queue:
 	public synchronized int compareTo(Teller other) {
 		return customersServed < other.customersServed ? -1 :
-		    (customersServed == other.customersServed ? 0 : 1);
+			(customersServed == other.customersServed ? 0 : 1);
 	}
 }
 
@@ -102,13 +102,13 @@ class TellerManager implements Runnable {
 	private static Random rand = new Random(47);
 	public TellerManager(ExecutorService e, 
 			CustomerLine customers, int adjustmentPeriod) {
-	    exec = e;
-	    this.customers = customers;
-	    this.adjustmentPeriod = adjustmentPeriod;
-	    // Start with a single teller:
-	    Teller teller = new Teller(customers);
-	    exec.execute(teller);
-	    workingTellers.add(teller);
+		exec = e;
+		this.customers = customers;
+		this.adjustmentPeriod = adjustmentPeriod;
+		// Start with a single teller:
+		Teller teller = new Teller(customers);
+		exec.execute(teller);
+		workingTellers.add(teller);
 	}
 	public void adjustTellerNumber() {
 		// This is actually a control system. By adjusting
@@ -116,7 +116,7 @@ class TellerManager implements Runnable {
 		// the control mechanism.
 		// If line is too long, add another teller:
 		if(customers.size() / workingTellers.size() > 2) {
-			// If tellers are on break or doing
+			// If tellers are on break or doing 
 			// another job, bring one back:
 			if(tellersDoingOtherThings.size() > 0) {
 				Teller teller = tellersDoingOtherThings.remove();
@@ -131,10 +131,10 @@ class TellerManager implements Runnable {
 			return ;
 		}
 		// If line is short enough, remove a teller:
-		if(workingTellers.size() > 1 && 
-				customers.size() / workingTellers.size() < 2)
+		if(workingTellers.size() > 1 &&
+				customers.size() / workingTellers.size() <2)
 			reassignOneTeller();
-		// If there is no line, we only need one teller:
+		// If there is no line, we only need ont teller:
 		if(customers.size() == 0)
 			while(workingTellers.size() > 1)
 				reassignOneTeller();
@@ -156,29 +156,31 @@ class TellerManager implements Runnable {
 				System.out.println("}");
 			}
 		} catch(InterruptedException e) {
-			System.out.println(this + " interrupted");
+			System.out.println(this + "interrupted");
 		}
-		System.out.println(this + " terminating");
+		System.out.println(this + "terminating");
 	}
-	public String toString() { return "TellerManager"; }
+	public String toString() {
+		return "TellerManager ";
+	}
 }
 
 public class BankTellerSimulation {
-    static final int MAX_LINE_SIZE = 50;
-    static final int ADJUSTMENT_PERIOD = 1000;
+	static final int MAX_LINE_SIZE = 50;
+	static final int ADJUSTMENT_PERIOD = 1000;
 	public static void main(String[] args) throws Exception {
-        ExecutorService exec = Executors.newCachedThreadPool();
-        // If line is too long, customers will leave:
-        CustomerLine customers = new CustomerLine(MAX_LINE_SIZE);
-        exec.execute(new CustomerGenerator(customers));
-        // Manager will add and remove tellers as necessary:
-        exec.execute(new TellerManager(exec, customers, ADJUSTMENT_PERIOD));
-        if(args.length > 0)  // Optional argument
-            TimeUnit.SECONDS.sleep(new Integer(args[0]));
-        else {
-            System.out.println("Press 'Enter' to quit");
-            System.in.read();
-        }
-        exec.shutdownNow();
+		ExecutorService exec = Executors.newCachedThreadPool();
+		// If line is too long, customers will leave:
+		CustomerLine customers = new CustomerLine(MAX_LINE_SIZE);
+		exec.execute(new CustomerGenerator(customers));
+		// Manager will add and remove tellers as necessary:
+		exec.execute(new TellerManager(exec, customers, ADJUSTMENT_PERIOD));
+		if(args.length > 0)  // Optional argument
+			TimeUnit.SECONDS.sleep(new Integer(args[0]));
+		else {
+			System.out.println("Press 'Enter' to quit");
+			System.in.read();
+		}
+		exec.shutdownNow();
 	}
 }
