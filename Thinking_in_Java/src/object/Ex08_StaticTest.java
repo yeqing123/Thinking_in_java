@@ -7,7 +7,7 @@ public class Ex08_StaticTest {
         StaticTest st2 = new StaticTest();
         StaticTest st3 = new StaticTest();
         System.out.println(st1.i + ", " + st2.i + ", " + st3.i);
-        StaticTest.i++;
+        st1.i++;
         System.out.println(st1.i + ", " + st2.i + ", " + st3.i);
 	}
 
